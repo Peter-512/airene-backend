@@ -1,0 +1,5 @@
+rootProject.name = "Backend-Airene"
+
+include 'common'
+include 'application'
+
