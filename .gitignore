@@ -44,3 +44,8 @@ bin/
 .DS_Store
 /.idea/
 /gradle/
+
+./infrastructure-airene
+/application/config/.env
+/http-client.private.env.json
+/.env

@@ -1,0 +1,34 @@
+POST https://login.microsoftonline.com/{{tenant_id}}/oauth2/v2.0/token
+Content-Type: application/x-www-form-urlencoded
+
+client_secret = {{client_secret}} &
+client_id = {{client_id}} &
+grant_type = client_credentials &
+scope = {{application_id_uri}}/.default
+
+> {%
+    if (response.status === 200) {
+        client.global.set("access_token", response.body.access_token);
+    }
+%}
+###
+
+GET http://localhost:8080/test
+Authorization: Bearer {{access_token}}
+
+> {%
+    client.test("Status code is 200", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+###
+POST https://kdgintegration5team1.b2clogin.com/kdgintegration5team1.onmicrosoft.com/B2C_1_airene_flow/v2.0/.well-known/openid-configuration
+
+
+###
+GET https://login.microsoftonline.com/ed1fc57f-8a97-47e7-9de1-9302dfd786ae/v2.0/.well-known/openid-configuration
+
+
+###
+GET https://login.microsoftonline.com/d3aabef1-90d5-4f0b-be6f-f86b3711de96/v2.0/.well-known/openid-configuration
