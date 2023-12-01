@@ -7,8 +7,3 @@ spring:
           client-id: ${AZURE_ENTRA_CLIENT_ID}
         session-stateless: true
         app-id-uri: ${AZURE_ENTRA_APP_ID_URI}
-logging:
-  level:
-    org:
-      springframework:
-          security: TRACE

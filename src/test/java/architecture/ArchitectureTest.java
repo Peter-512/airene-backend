@@ -17,7 +17,7 @@ public class ArchitectureTest {
 	private static final String DOMAIN_LAYER = "be.kdg.airene.domain..";
 
 	private static final String ADAPTER_LAYER = "be.kdg.airene.adapters..";
-	private static final String CORE_LAYER = "be.kdg.airene.application..";
+	private static final String CORE_LAYER = "be.kdg.airene.core..";
 	private static final String PORT_LAYER = "be.kdg.airene.ports..";
 
 	@ArchTest
@@ -38,7 +38,7 @@ public class ArchitectureTest {
 		Architectures.LayeredArchitecture arch = layeredArchitecture().consideringOnlyDependenciesInLayers()
 		                                                              .layer("DRIVING_ADAPTERS").definedBy("..adapters.in..")
 		                                                              .layer("DRIVING_PORTS").definedBy("..ports.in..")
-		                                                              .layer("CORE").definedBy("..application..")
+		                                                              .layer("CORE").definedBy("..core..")
 		                                                              .whereLayer("DRIVING_ADAPTERS").mayNotBeAccessedByAnyLayer()
 		                                                              .whereLayer("DRIVING_PORTS").mayOnlyBeAccessedByLayers("DRIVING_ADAPTERS", "CORE");
 
@@ -46,4 +46,3 @@ public class ArchitectureTest {
 		arch.check(jc);
 	}
 }
-

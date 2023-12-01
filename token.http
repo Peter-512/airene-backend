@@ -13,7 +13,7 @@ scope = {{application_id_uri}}/.default
 %}
 ###
 
-GET http://localhost:8080/test
+GET {{baseUrl}}/test
 Authorization: Bearer {{access_token}}
 
 > {%

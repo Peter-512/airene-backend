@@ -1,7 +1,7 @@
 .gradle
 **/.gradle
 **/build/
-build/
+builds/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -48,4 +48,6 @@ bin/
 ./infrastructure-airene
 /application/config/.env
 /http-client.private.env.json
-/.env
+.env
+cache/
+http-client.env.json

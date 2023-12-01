@@ -1,4 +1,4 @@
-package be.kdg.airene.application.usecase;
+package be.kdg.airene.core;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
