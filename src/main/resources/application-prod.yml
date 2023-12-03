@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    azure:
+      servicebus:
+        namespace: ${AZURE_SERVICEBUS_NAMESPACE}
+        entity-type: queue
+        connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
+      active-directory:
+        enabled: true
+        credential:
+          client-id: ${AZURE_ENTRA_CLIENT_ID}
+        session-stateless: true
+        app-id-uri: ${AZURE_ENTRA_APP_ID_URI}
+  datasource:
+    url: ${AZURE_SQL_DB_URL}
+    username: ${AZURE_SQL_DB_USERNAME}
+    password: ${AZURE_SQL_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQLDialect

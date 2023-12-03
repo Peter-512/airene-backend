@@ -10,7 +10,7 @@ public class Feedback {
 	private FeedbackReason feedbackReason;
 	private String description; // optional
 
-	private Feedback(FeedbackReason feedbackReason, String description) {
+	public Feedback(FeedbackReason feedbackReason, String description) {
 		this.feedbackReason = feedbackReason;
 		this.description = description;
 	}

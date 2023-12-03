@@ -49,5 +49,7 @@ bin/
 /application/config/.env
 /http-client.private.env.json
 .env
+infrastructure-airene/idp_mysql_data/
+infrastructure-airene/mysql/
 cache/
 http-client.env.json
