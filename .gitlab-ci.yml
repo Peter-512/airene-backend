@@ -8,11 +8,11 @@ variables:
     DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: ""
     DS_JAVA_VERSION: 21
-    SECURE_LOG_LEVEL: debug
+    SECURE_LOG_LEVEL: info
 
 dependency_scanning:
   variables:
-    CI_DEBUG_TRACE: "true"
+    CI_DEBUG_TRACE: "false"
 
 image: docker:latest
 services:
