@@ -8,6 +8,7 @@ variables:
     DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: ""
     DS_JAVA_VERSION: 21
+    SECURE_LOG_LEVEL: debug
 
 
 image: docker:latest
