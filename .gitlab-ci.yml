@@ -1,6 +1,6 @@
 stages:
-    - build
     - test
+    - build
     - deploy
 
 
@@ -45,7 +45,7 @@ test:
     image: gradle:8.4.0-jdk21
     stage: test
     script:
-        - gradle test
+        - gradle compileJava test
     artifacts:
         when: always
         reports:
