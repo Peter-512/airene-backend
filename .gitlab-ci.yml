@@ -10,6 +10,9 @@ variables:
     DS_JAVA_VERSION: 21
     SECURE_LOG_LEVEL: debug
 
+dependency_scanning:
+  variables:
+    CI_DEBUG_TRACE: "true"
 
 image: docker:latest
 services:
