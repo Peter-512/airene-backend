@@ -1,3 +1,9 @@
+stages:
+    - build
+    - test
+    - deploy
+
+
 include:
     - template: Security/Dependency-Scanning.gitlab-ci.yml
     - template: Security/Secret-Detection.gitlab-ci.yml
@@ -23,10 +29,6 @@ cache:
         - .gradle
 
 
-stages:
-    - build
-    - test
-    - deploy
 
 
 build:
@@ -35,7 +37,8 @@ build:
 #    only:
 #        - main
     script:
-        - gradle clean bootBuildImage
+        - gradle clean compileJava  #changing this to avoid pollution of students container repo.
+
 
 
 test:

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -20,10 +21,12 @@ public class Anomaly implements Serializable{
 	private Location location;
 	private Map<String, Object> data; 	// rest of the data-entry
 
-	private Anomaly(UUID id, Timestamp timestamp) {
+	Anomaly(UUID id, Timestamp timestamp) {
 		this.id = id;
 		this.timestamp = timestamp;
-		this.location = new Location((double) data.get("latitude"), (double) data.get("longitude"));
+		if (data != null && !data.isEmpty()) {
+			this.location = new Location((double) data.get("latitude"), (double) data.get("longitude"));
+		}
 	}
 
 	public static Anomaly anomalyDetected(UUID id, Timestamp timestamp) {
@@ -32,5 +35,18 @@ public class Anomaly implements Serializable{
 
 	public void addFeedback(Feedback feedback) {
 		feedbackList.add(feedback);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Anomaly anomaly = (Anomaly) o;
+		return Objects.equals(id, anomaly.id) && Objects.equals(timestamp, anomaly.timestamp) && Objects.equals(feedbackList, anomaly.feedbackList) && Objects.equals(location, anomaly.location) && Objects.equals(data, anomaly.data);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, timestamp, feedbackList, location, data);
 	}
 }
