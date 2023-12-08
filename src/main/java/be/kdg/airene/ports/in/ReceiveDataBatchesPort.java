@@ -1,5 +1,5 @@
 package be.kdg.airene.ports.in;
 
-public interface RecieveDataBatchesPort {
+public interface ReceiveDataBatchesPort {
 	void recieveDataBatches(String json);
 }

@@ -5,6 +5,6 @@ import be.kdg.airene.domain.data.Data;
 import java.util.Collection;
 
 @FunctionalInterface
-public interface SaveDataEntryBatchesUseCase {
+public interface DataEntryBatchSaverPort {
 	void saveDataEntryBatches(Collection<Data> data);
 }

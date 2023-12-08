@@ -6,11 +6,16 @@ spring:
         entity-type: queue
         connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
       active-directory:
-        enabled: true
-        credential:
-          client-id: ${AZURE_ENTRA_CLIENT_ID}
-        session-stateless: true
-        app-id-uri: ${AZURE_ENTRA_APP_ID_URI}
+        b2c:
+          enabled: true
+          profile:
+            tenant-id: ${AZURE_ENTRA_TENANT_ID}
+          credential:
+            client-id: ${AZURE_ENTRA_CLIENT_ID}           # If you are using v2.0 token, please configure client-id for `aud` verification
+          app-id-uri: ${AZURE_ENTRA_APP_ID_URI}         # If you are using v1.0 token, please configure app-id-uri for `aud` verification
+          base-uri: https://aireneintegration.b2clogin.com             # Such as: https://xxxxb2c.b2clogin.com
+          user-flows:
+            sign-up-or-sign-in: ${AZURE_SIGN_UP_OR_SIGN_IN_FLOW_NAME}
   datasource:
     url: ${AZURE_SQL_DB_URL}
     username: ${AZURE_SQL_DB_USERNAME}

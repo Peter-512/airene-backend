@@ -32,8 +32,8 @@ stages:
 build:
     image: gradle:8.4.0-jdk21
     stage: build
-    only:
-        - main
+#    only:
+#        - main
     script:
         - gradle clean bootBuildImage
 
@@ -69,3 +69,6 @@ deploy:
             AZURE_SQL_DB_PASSWORD=$AZURE_SQL_DB_PASSWORD
             AZURE_SQL_DB_URL=$AZURE_SQL_DB_URL
             SPRING_PROFILES_ACTIVE=prod
+            AZURE_AD_BASE_URI=$AZURE_AD_BASE_URI
+            AZURE_SIGN_UP_OR_SIGN_IN_FLOW_NAME=$AZURE_SIGN_UP_OR_SIGN_IN_FLOW_NAME
+            AZURE_ENTRA_TENANT_ID=$AZURE_ENTRA_TENANT_ID

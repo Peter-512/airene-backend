@@ -1,5 +1,5 @@
 package be.kdg.airene.ports.in;
 
-public interface RecieveAnomaliesPort {
+public interface ReceiveAnomaliesPort {
 	void recieveAnomalies(String json);
 }

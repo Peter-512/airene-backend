@@ -47,15 +47,8 @@ dependencies {
     implementation("com.azure.spring:spring-cloud-azure-starter-jdbc-mysql:5.7.0")
     implementation("com.azure.spring:spring-cloud-azure-starter-actuator:5.7.0")
     implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault:5.7.0'
-    implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory:5.7.0'
+    implementation("com.azure.spring:spring-cloud-azure-starter-active-directory-b2c:5.7.0")
     implementation 'com.azure.spring:spring-cloud-azure-starter:5.7.0'
-
-    // MAPSTRUCT
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
-    // DEV ENV
-    implementation 'mysql:mysql-connector-java:8.0.33'
 
     // DEV TOOLS
     compileOnly 'org.projectlombok:lombok'
@@ -63,6 +56,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+
+    // MAPSTRUCT
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    // DEV ENV
+    implementation 'mysql:mysql-connector-java:8.0.33'
 
     // TESTING
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
