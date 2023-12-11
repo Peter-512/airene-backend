@@ -5,12 +5,6 @@ spring:
         namespace: ${AZURE_SERVICEBUS_NAMESPACE}
         entity-type: queue
         connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
-      active-directory:
-        enabled: true
-        credential:
-          client-id: ${AZURE_ENTRA_CLIENT_ID}
-        session-stateless: true
-        app-id-uri: ${AZURE_ENTRA_APP_ID_URI}
   jpa:
     open-in-view: false
     generate-ddl: true
@@ -29,14 +23,25 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8180/realms/Airene/protocol/openid-connect/certs
           issuer-uri: http://localhost:8180/realms/Airene
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:username}
+    password: ${MAIL_PASSWORD:password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 logging:
   level:
     be:
       kdg:
-        airene: TRACE
+        airene: debug
     org:
       springframework:
         security: TRACE
     hibernate:
-      SQL: DEBUG
+      SQL: info

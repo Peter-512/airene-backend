@@ -1,0 +1,36 @@
+spring:
+  cloud:
+    azure:
+      servicebus:
+        namespace: ${AZURE_SERVICEBUS_NAMESPACE}
+        entity-type: queue
+        connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/app_db}
+    username: ${DATASOURCE_USER:user}
+    password: ${DATASOURCE_PASS:password}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/realms/Airene/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8180/realms/Airene
+
+logging:
+  level:
+    be:
+      kdg:
+        airene: debug
+    org:
+      springframework:
+        security: TRACE
+    hibernate:
+      SQL: info

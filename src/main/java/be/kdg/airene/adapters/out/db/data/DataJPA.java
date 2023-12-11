@@ -46,4 +46,5 @@ public class DataJPA {
 	private double currentGbDefraIndex;
 	private double p1;
 	private double p2;
+	private double airQuality;
 }

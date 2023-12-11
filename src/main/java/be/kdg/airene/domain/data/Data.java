@@ -29,7 +29,7 @@ public class Data {
 	@JsonProperty ("current.last_updated")
 	@JsonDeserialize (using = LocalDateTimeNoSecondsConverter.class)
 	private LocalDateTime currentLastUpdated;
-	@JsonProperty ("current.temperature_c")
+	@JsonProperty ("current.temp_c")
 	private double currentTemperature;
 	@JsonProperty ("current.uv")
 	private double currentUv;
@@ -53,4 +53,6 @@ public class Data {
 	private double currentGbDefraIndex;
 	private double p1;
 	private double p2;
+	@JsonProperty ("air_quality")
+	private double airQuality;
 }

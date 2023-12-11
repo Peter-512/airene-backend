@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
@@ -21,8 +23,9 @@ public class LocalDateTimeConverter extends StdDeserializer<LocalDateTime> {
 	}
 
 	@Override
-	public LocalDateTime deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctxt) throws java.io.IOException, com.fasterxml.jackson.core.JacksonException {
+	public LocalDateTime deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctxt) throws java.io.IOException {
 		JsonNode node = p.getCodec().readTree(p);
-		return LocalDateTime.parse(node.asText(), FORMATTER);
+		Instant instant = Instant.ofEpochMilli(node.asLong());
+		return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
 	}
 }

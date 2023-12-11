@@ -1,6 +1,5 @@
 package be.kdg.airene.domain.feedback;
 
-import be.kdg.airene.domain.anomaly.AnomalyID;
 import lombok.Getter;
 import lombok.Setter;
 

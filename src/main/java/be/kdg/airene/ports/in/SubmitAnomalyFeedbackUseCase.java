@@ -1,9 +1,10 @@
 package be.kdg.airene.ports.in;
 
-import be.kdg.airene.domain.anomaly.AnomalyID;
 import be.kdg.airene.domain.feedback.Feedback;
+
+import java.util.UUID;
 
 @FunctionalInterface
 public interface SubmitAnomalyFeedbackUseCase {
-	void submitAnomalyFeedback(AnomalyID anomalyID, Feedback feedback);
+	void submitAnomalyFeedback(UUID anomalyId, Feedback feedback);
 }

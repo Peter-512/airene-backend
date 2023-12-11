@@ -5,48 +5,32 @@ import be.kdg.airene.domain.location.Location;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class Anomaly implements Serializable{
+public class Anomaly {
 	private UUID id;
-	private Timestamp timestamp;
-	private List<Feedback> feedbackList;
+	private LocalDateTime timestamp;
+	private UUID dataId;
 	private Location location;
-	private Map<String, Object> data; 	// rest of the data-entry
+	private double averageRegression;
+	private List<Feedback> feedbackList = new ArrayList<>();
 
-	Anomaly(UUID id, Timestamp timestamp) {
-		this.id = id;
-		this.timestamp = timestamp;
-		if (data != null && !data.isEmpty()) {
-			this.location = new Location((double) data.get("latitude"), (double) data.get("longitude"));
-		}
+	public static Anomaly anomalyDetected(Prediction prediction) {
+		Anomaly anomaly = new Anomaly();
+		anomaly.setId(prediction.getId());
+		anomaly.setTimestamp(prediction.getTimestamp());
+		anomaly.setDataId(prediction.getDataId());
+		anomaly.setLocation(prediction.getLocation());
+		anomaly.setAverageRegression(prediction.getAverageRegression());
+		return anomaly;
 	}
 
-	public static Anomaly anomalyDetected(UUID id, Timestamp timestamp) {
-		return new Anomaly(id, timestamp);
-	}
-
-	public void addFeedback(Feedback feedback) {
-		feedbackList.add(feedback);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Anomaly anomaly = (Anomaly) o;
-		return Objects.equals(id, anomaly.id) && Objects.equals(timestamp, anomaly.timestamp) && Objects.equals(feedbackList, anomaly.feedbackList) && Objects.equals(location, anomaly.location) && Objects.equals(data, anomaly.data);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, timestamp, feedbackList, location, data);
+	public void submitFeedback(Feedback feedback) {
+		this.feedbackList.add(feedback);
 	}
 }

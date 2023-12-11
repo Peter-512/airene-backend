@@ -1,25 +1,19 @@
-stages:
-    - test
-    - build
-    - deploy
+include:
+    - template: Security/Dependency-Scanning.gitlab-ci.yml
+    - template: Security/Secret-Detection.gitlab-ci.yml
+    - template: Jobs/SAST.gitlab-ci.yml
+
 
 variables:
-    GCP_PROJECT_ID: "airene-i5-backend"
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: ""
-    DS_JAVA_VERSION: 21
 
 
 image: docker:latest
 services:
     - docker:dind
 
-
-include:
-    -   template: Security/Dependency-Scanning.gitlab-ci.yml
-    -   template: Security/Secret-Detection.gitlab-ci.yml
-    -   template: Jobs/SAST.gitlab-ci.yml
 
 cache:
     key: "$CI_COMMIT_REF_NAME"
@@ -29,6 +23,10 @@ cache:
         - .gradle
 
 
+stages:
+    - build
+    - test
+    - deploy
 
 
 build:
@@ -40,17 +38,15 @@ build:
         - gradle clean bootBuildImage
 
 
-
 test:
     image: gradle:8.4.0-jdk21
     stage: test
     script:
-        - gradle compileJava test
+        - gradle test
     artifacts:
         when: always
         reports:
             junit: ./build/test-results/test/**/TEST-*.xml
-
 
 
 deploy:
@@ -64,15 +60,12 @@ deploy:
     script:
         - tag=$CI_COMMIT_REF_NAME
         - az containerapp up --name airene-backend --resource-group int5 --location westeurope --environment prod --target-port 8080 --ingress external --image "$IMAGE_USERNAME.azurecr.io/airene-backend:latest"
-        - az containerapp update --name airene-backend --resource-group int5 --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --set-env-vars
-            AZURE_ENTRA_CLIENT_ID=$AZURE_ENTRA_CLIENT_ID
-            AZURE_ENTRA_APP_ID_URI=$AZURE_ENTRA_APP_ID_URI
+        - az containerapp update --name airene-backend --resource-group int5 --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --set-env-vars 
             AZURE_SERVICEBUS_NAMESPACE=$AZURE_SERVICEBUS_NAMESPACE
             AZURE_SERVICEBUS_CONNECTION_STRING=$AZURE_SERVICEBUS_CONNECTION_STRING
             AZURE_SQL_DB_USERNAME=$AZURE_SQL_DB_USERNAME
             AZURE_SQL_DB_PASSWORD=$AZURE_SQL_DB_PASSWORD
             AZURE_SQL_DB_URL=$AZURE_SQL_DB_URL
             SPRING_PROFILES_ACTIVE=prod
-            AZURE_AD_BASE_URI=$AZURE_AD_BASE_URI
-            AZURE_SIGN_UP_OR_SIGN_IN_FLOW_NAME=$AZURE_SIGN_UP_OR_SIGN_IN_FLOW_NAME
-            AZURE_ENTRA_TENANT_ID=$AZURE_ENTRA_TENANT_ID
+            KEYCLOAK_ISSUER=$KEYCLOAK_ISSUER
+            KEYCLOAK_JWT=$KEYCLOAK_JWT

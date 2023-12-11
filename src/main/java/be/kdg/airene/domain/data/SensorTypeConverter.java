@@ -25,12 +25,23 @@ public class SensorTypeConverter extends StdDeserializer<SensorType> {
 	@Override
 	public SensorType deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
 		JsonNode node = p.getCodec().readTree(p);
-		String replaced = node.asText().replace("'", "\"");
-		node = mapper.readTree(replaced);
-		var id = node.get("id").asLong();
-		var name = node.get("name").asText();
-		var manufacturer = node.get("manufacturer").asText();
-		log.info("SensorTypeConverter: id: {}, name: {}, manufacturer: {}", id, name, manufacturer);
+		long id;
+		String name;
+		String manufacturer;
+		try {
+			 id = node.get("id").asLong();
+			 name = node.get("name").asText();
+			 manufacturer = node.get("manufacturer").asText();
+		}
+		catch (NullPointerException e) {
+			String replaced = node.asText().replace("'", "\"");
+			node = mapper.readTree(replaced);
+			 id = node.get("id").asLong();
+			 name = node.get("name").asText();
+			 manufacturer = node.get("manufacturer").asText();
+			log.debug("SensorTypeConverter: id: {}, name: {}, manufacturer: {}", id, name, manufacturer);
+			return new SensorType(id, name, manufacturer);
+		}
 		return new SensorType(id, name, manufacturer);
 	}
 }

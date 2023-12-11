@@ -21,9 +21,10 @@ public class LocationConverter  extends StdDeserializer<Location> {
 	@Override
 	public Location deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 		JsonNode node = jp.getCodec().readTree(jp);
-		log.debug("Node: {}", node);
-		double latitude = node.get("latitude").asDouble();
-		double longitude = node.get("longitude").asDouble();
-		return new Location(latitude, longitude);
+		double lat;
+		double lon;
+		lat = node.get("latitude").asDouble();
+		lon = node.get("longitude").asDouble();
+		return new Location(lat, lon);
 	}
 }
