@@ -9,7 +9,6 @@ import be.kdg.airene.ports.in.SaveUserPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,8 +34,9 @@ public class UserAdapter implements LoadUserPort, CreateUserPort, NearestUsersLo
 
 	@Override
 	public List<User> loadUsersSubscribedToNearestAnomaly(double latitude, double longitude) {
-		// TODO: implement
-		return new ArrayList<>();
+		return userRepository.findAllByNearestLocationLatitudeAndNearestLocationLongitude(latitude, longitude, 1).stream()
+		                     .map(userMapper::toDomain)
+		                     .toList();
 	}
 
 	@Override
