@@ -1,12 +1,13 @@
 package be.kdg.airene.adapters.out.db.user;
 
+import be.kdg.airene.adapters.out.db.subscription.SubscriptionJPA;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +21,7 @@ public class UserJPA {
 	private UUID id;
 	private String name;
 	private String email;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
-	private List<SubscribedLocationJPA> locations;
+	private Set<SubscriptionJPA> subscribedLocations;
 }

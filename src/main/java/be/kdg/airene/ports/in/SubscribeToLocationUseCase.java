@@ -1,9 +1,11 @@
 package be.kdg.airene.ports.in;
 
 import be.kdg.airene.domain.location.Location;
-import be.kdg.airene.domain.user.UserID;
+import be.kdg.airene.domain.subscription.Subscription;
+
+import java.util.UUID;
 
 @FunctionalInterface
 public interface SubscribeToLocationUseCase {
-	void subscribeToLocation(UserID userID, Location location);
+	Subscription subscribeToLocation(UUID userID, Location location);
 }

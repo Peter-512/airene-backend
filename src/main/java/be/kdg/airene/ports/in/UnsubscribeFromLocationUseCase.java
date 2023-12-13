@@ -1,9 +1,8 @@
 package be.kdg.airene.ports.in;
 
-import be.kdg.airene.domain.location.Location;
-import be.kdg.airene.domain.user.UserID;
+import java.util.UUID;
 
 @FunctionalInterface
 public interface UnsubscribeFromLocationUseCase {
-	void unsubscribeFromLocation(UserID userID, Location location);
+	boolean unsubscribeFromLocation(UUID userID, UUID subscriptionId);
 }

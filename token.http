@@ -13,3 +13,40 @@ client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=password&userna
 ###
 GET {{baseUrl}}/api/anomalies
 Authorization: Bearer {{access_token}}
+
+
+### CREATE User
+POST {{baseUrl}}/api/users
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+        "name": "Seifeldin",
+        "id": "00a9e265-6be2-4d91-b1c9-20fce7d00566",
+        "email": "seifeldin.sabry@student.kdg.be"
+}
+
+### Subscribe
+POST {{baseUrl}}/api/users/00a9e265-6be2-4d91-b1c9-20fce7d00566/subscriptions
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "latitude": 51.219448,
+  "longitude": 4.402464
+}
+
+> {%
+  client.global.set("subscriptionId", response.body.id);
+%}
+
+
+### Get Subscriptions
+GET {{baseUrl}}/api/users/00a9e265-6be2-4d91-b1c9-20fce7d00566/subscriptions
+Authorization: Bearer {{access_token}}
+
+### Unsuscribe
+DELETE {{baseUrl}}/api/users/00a9e265-6be2-4d91-b1c9-20fce7d00566/subscriptions/{{subscriptionId}}/unsubscribe
+Authorization: Bearer {{access_token}}
+
+

@@ -5,6 +5,7 @@ import be.kdg.airene.domain.user.User;
 import be.kdg.airene.ports.in.CreateUserPort;
 import be.kdg.airene.ports.in.LoadUserPort;
 import be.kdg.airene.ports.in.NearestUsersLoadPort;
+import be.kdg.airene.ports.in.SaveUserPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class UserAdapter implements LoadUserPort, CreateUserPort, NearestUsersLoadPort {
+public class UserAdapter implements LoadUserPort, CreateUserPort, NearestUsersLoadPort, SaveUserPort {
 
 	private final UserRepository userRepository;
 	private final UserMapper userMapper = UserMapper.INSTANCE;
@@ -36,5 +37,10 @@ public class UserAdapter implements LoadUserPort, CreateUserPort, NearestUsersLo
 	public List<User> loadUsersSubscribedToNearestAnomaly(double latitude, double longitude) {
 		// TODO: implement
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void saveUser(User user) {
+		userRepository.save(userMapper.toJPA(user));
 	}
 }
