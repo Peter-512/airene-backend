@@ -1,6 +1,6 @@
 package be.kdg.airene.domain.user;
 
-import be.kdg.airene.domain.location.Location;
+import be.kdg.airene.domain.location.SubscribedLocation;
 import be.kdg.airene.domain.subscription.Subscription;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +19,8 @@ public class User {
 	private String email;
 	private Set<Subscription> subscriptions = new HashSet<>();
 
-	public Subscription subscribeToLocation(Location location) {
-		Subscription subscription = subscribe(this.id, location);
+	public Subscription subscribeToLocation(SubscribedLocation location) {
+		Subscription subscription = subscribe(this, location);
 		boolean added = subscriptions.add(subscription);
 		if(!added){
 			return null;

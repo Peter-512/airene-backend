@@ -4,18 +4,16 @@ import be.kdg.airene.adapters.out.mapper.UserMapper;
 import be.kdg.airene.domain.user.User;
 import be.kdg.airene.ports.in.CreateUserPort;
 import be.kdg.airene.ports.in.LoadUserPort;
-import be.kdg.airene.ports.in.NearestUsersLoadPort;
 import be.kdg.airene.ports.in.SaveUserPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class UserAdapter implements LoadUserPort, CreateUserPort, NearestUsersLoadPort, SaveUserPort {
+public class UserAdapter implements LoadUserPort, CreateUserPort, SaveUserPort {
 
 	private final UserRepository userRepository;
 	private final UserMapper userMapper = UserMapper.INSTANCE;
@@ -32,12 +30,14 @@ public class UserAdapter implements LoadUserPort, CreateUserPort, NearestUsersLo
 		return true;
 	}
 
-	@Override
-	public List<User> loadUsersSubscribedToNearestAnomaly(double latitude, double longitude) {
-		return userRepository.findAllByNearestLocationLatitudeAndNearestLocationLongitude(latitude, longitude, 1).stream()
-		                     .map(userMapper::toDomain)
-		                     .toList();
-	}
+//	@Override
+//	public List<User> loadUsersSubscribedToNearestAnomaly(double latitude, double longitude) {
+//		// 1KM radius TODO: add subscription radius
+//		List<UserJPA> allByNearestLocationLatitudeAndNearestLocationLongitude = userRepository.findAllByNearestLocationLatitudeAndNearestLocationLongitude(latitude, longitude, 4);
+//		return allByNearestLocationLatitudeAndNearestLocationLongitude.stream()
+//		                                                              .map(userMapper::toDomain)
+//		                                                              .toList();
+//	}
 
 	@Override
 	public void saveUser(User user) {

@@ -47,4 +47,11 @@ public class DataJPA {
 	private double p1;
 	private double p2;
 	private double airQuality;
+	private double co_aqi;
+	private double no2_aqi;
+	private double o3_aqi;
+	private double so2_aqi;
+	private double pm25_aqi;
+	private double pm10_aqi;
+	private double aqi;
 }

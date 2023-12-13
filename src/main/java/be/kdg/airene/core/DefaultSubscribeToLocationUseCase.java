@@ -1,6 +1,6 @@
 package be.kdg.airene.core;
 
-import be.kdg.airene.domain.location.Location;
+import be.kdg.airene.domain.location.SubscribedLocation;
 import be.kdg.airene.domain.subscription.Subscription;
 import be.kdg.airene.domain.user.User;
 import be.kdg.airene.ports.in.LoadUserPort;
@@ -22,7 +22,7 @@ public class DefaultSubscribeToLocationUseCase implements SubscribeToLocationUse
 	private final UpdateSubscriptionPort updateSubscriptionPort;
 
 	@Override
-	public Subscription subscribeToLocation(UUID userID, Location location) {
+	public Subscription subscribeToLocation(UUID userID, SubscribedLocation location) {
 		Optional<User> optUser = loadUserPort.loadUser(userID);
 		if(optUser.isEmpty()){
 			log.debug("User with id {} not found", userID);

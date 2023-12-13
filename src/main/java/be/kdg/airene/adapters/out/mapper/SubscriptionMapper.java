@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface SubscriptionMapper {
@@ -22,8 +23,9 @@ public interface SubscriptionMapper {
 
 	 @Mapping(source = "location.latitude", target = "latitude")
 	 @Mapping(source = "location.longitude", target = "longitude")
+	 @Mapping(source = "location.address", target = "address")
 	 SubscriptionDTO toDTO(Subscription subscription);
 	 List<SubscriptionJPA> toJPA(Collection<Subscription> subscriptions);
-	 List<Subscription> toDomain(Collection<SubscriptionJPA> subscriptionJPAS);
+	 Set<Subscription> toDomain(Collection<SubscriptionJPA> subscriptionJPAS);
 	 List<SubscriptionDTO> toDTO(Collection<Subscription> subscriptions);
 }

@@ -10,4 +10,5 @@ import lombok.Setter;
 public class SubscriptionRequestDTO {
 	private double latitude;
 	private double longitude;
+	private String address;
 }

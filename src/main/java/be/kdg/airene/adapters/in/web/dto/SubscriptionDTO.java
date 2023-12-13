@@ -11,4 +11,5 @@ public class SubscriptionDTO {
 	private UUID id;
 	private double latitude;
 	private double longitude;
+	private String address;
 }

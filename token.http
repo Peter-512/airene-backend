@@ -21,9 +21,9 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-        "name": "Seifeldin",
+        "name": "Filip",
         "id": "00a9e265-6be2-4d91-b1c9-20fce7d00566",
-        "email": "seifeldin.sabry@student.kdg.be"
+        "email": "filip.nowak@student.kdg.be"
 }
 
 ### Subscribe
@@ -32,8 +32,9 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "latitude": 51.219448,
-  "longitude": 4.402464
+  "latitude": 50.83,
+  "longitude": 4.364,
+  "address": "Karel de Grote Hogeschool, Campus Zuid, Brusselstraat, Zuid, Antwerpen, Antwerpen, Vlaanderen, 2018, België"
 }
 
 > {%

@@ -10,6 +10,7 @@ spring:
     username: ${AZURE_SQL_DB_USERNAME}
     password: ${AZURE_SQL_DB_PASSWORD}
   jpa:
+    show-sql: false
     hibernate:
       ddl-auto: update
       dialect: org.hibernate.dialect.MySQLDialect

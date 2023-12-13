@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<UserJPA, UUID> {
 
 	@Query(value = """
             SELECT DISTINCT u FROM UserJPA u
-            JOIN SubscriptionJPA sl ON u.id = sl.userId
+            JOIN SubscriptionJPA sl ON u.id = sl.user.id
             WHERE FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) * FUNCTION('COS', FUNCTION('RADIANS', sl.location.latitude)) *
                   FUNCTION('COS', FUNCTION('RADIANS', sl.location.longitude) - FUNCTION('RADIANS', :longitude)) +
                   FUNCTION('SIN', FUNCTION('RADIANS', :latitude)) * FUNCTION('SIN', FUNCTION('RADIANS', sl.location.latitude)))

@@ -1,6 +1,7 @@
 package be.kdg.airene.domain.subscription;
 
-import be.kdg.airene.domain.location.Location;
+import be.kdg.airene.domain.location.SubscribedLocation;
+import be.kdg.airene.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +11,12 @@ import java.util.UUID;
 @Setter
 public class Subscription {
 	private UUID id;
-	private UUID userId;
-	private Location location;
+	private User user;
+	private SubscribedLocation location;
 
-	public static Subscription subscribe(UUID userId, Location location) {
+	public static Subscription subscribe(User user, SubscribedLocation location) {
 		Subscription subscription = new Subscription();
-		subscription.setUserId(userId);
+		subscription.setUser(user);
 		subscription.setLocation(location);
 		return subscription;
 	}

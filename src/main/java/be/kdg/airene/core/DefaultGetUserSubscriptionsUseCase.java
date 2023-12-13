@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -18,8 +18,8 @@ public class DefaultGetUserSubscriptionsUseCase implements GetUserSubscriptionsU
 	private final LoadSubscriptionsByUserIdPort loadSubscriptionsByUserIdPort;
 
 	@Override
-	public List<Subscription> getUserSubscriptions(UUID userId) {
-		List<Subscription> subscriptions = loadSubscriptionsByUserIdPort.loadSubscriptionsByUserId(userId);
+	public Set<Subscription> getUserSubscriptions(UUID userId) {
+		Set<Subscription> subscriptions = loadSubscriptionsByUserIdPort.loadSubscriptionsByUserId(userId);
 		log.debug("User with id {} has {} subscriptions", userId, subscriptions.size());
 		return subscriptions;
 	}

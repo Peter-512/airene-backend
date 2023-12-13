@@ -21,7 +21,6 @@ public class UserJPA {
 	private UUID id;
 	private String name;
 	private String email;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<SubscriptionJPA> subscribedLocations;
 }

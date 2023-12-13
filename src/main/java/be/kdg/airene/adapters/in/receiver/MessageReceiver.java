@@ -11,12 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Slf4j
 @Component
+@Profile("prod")
 public class MessageReceiver implements ReceivePredictionsPort, ReceiveDataBatchesPort {
 	private final SaveDataEntryBatchesUseCase batchesUseCase;
 	private final SavePredictionsUseCase predictionsUseCase;
@@ -41,6 +43,7 @@ public class MessageReceiver implements ReceivePredictionsPort, ReceiveDataBatch
 
 	@ServiceBusListener (destination = QUEUE_PREDICTION_NAME)
 	@Override
+	@Profile("prod")
 	public void recievePredictions(String json) {
 		try {
 			List<Prediction> predictionList = objectMapper.readValue(json, listPredictionType);

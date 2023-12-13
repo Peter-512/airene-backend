@@ -16,6 +16,7 @@ public interface DataEntryMapper {
 	DataJPA mapToJpa(Data data);
 	Collection<DataJPA> mapToDataJPA(Collection<Data> data);
 
+	Data mapToDataDomain(DataJPA data);
 	List<Data> mapToDataDomain(List<DataJPA> data);
 
 	List<LocationDTO> mapToDTO(List<Data> allRecentLocations);
