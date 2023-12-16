@@ -13,7 +13,7 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 	@Query("""
 			SELECT d
 			FROM DataJPA d
-			WHERE d.timestamp = (max(d.timestamp))
+			WHERE d.timestamp = (SELECT MAX(d.timestamp) FROM DataJPA d)
 		""")
 	List<DataJPA> findMostRecentData();
 

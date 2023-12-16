@@ -54,3 +54,7 @@ Authorization: Bearer {{access_token}}
 ### Get Data
 GET {{baseUrl}}/api/data?date=2023-11-20&latitude=50.83&longitude=4.364&radius=4
 Authorization: Bearer {{access_token}}
+
+### GET recent data
+GET {{baseUrl}}/api/locations
+Authorization: Bearer {{access_token}}
