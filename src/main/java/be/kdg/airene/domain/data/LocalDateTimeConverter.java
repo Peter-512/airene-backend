@@ -25,6 +25,11 @@ public class LocalDateTimeConverter extends StdDeserializer<LocalDateTime> {
 	@Override
 	public LocalDateTime deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctxt) throws java.io.IOException {
 		JsonNode node = p.getCodec().readTree(p);
+		try {
+			return LocalDateTime.parse(node.asText(), FORMATTER);
+		} catch (Exception e) {
+			log.error("Error parsing date", e);
+		}
 		Instant instant = Instant.ofEpochMilli(node.asLong());
 		return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
 	}

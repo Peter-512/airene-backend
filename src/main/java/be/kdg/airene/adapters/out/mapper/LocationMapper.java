@@ -1,5 +1,6 @@
 package be.kdg.airene.adapters.out.mapper;
 
+import be.kdg.airene.adapters.in.web.dto.CoordinateDTO;
 import be.kdg.airene.adapters.in.web.dto.SubscriptionRequestDTO;
 import be.kdg.airene.domain.location.Location;
 import be.kdg.airene.domain.location.SubscribedLocation;
@@ -12,4 +13,9 @@ public interface LocationMapper {
 	SubscribedLocation toDomain (SubscriptionRequestDTO subscriptionRequestDTO);
 	Location toLocation (SubscribedLocation subscribedLocation);
 	SubscribedLocation toSubscribedLocation (Location location);
+	Location toLocation (CoordinateDTO coordinateDTO);
+
+	default Location toLocation (double latitude, double longitude){
+		return new Location(latitude, longitude);
+	}
 }

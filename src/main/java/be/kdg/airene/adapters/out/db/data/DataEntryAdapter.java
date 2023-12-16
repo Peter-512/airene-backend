@@ -2,12 +2,12 @@ package be.kdg.airene.adapters.out.db.data;
 
 import be.kdg.airene.adapters.out.mapper.DataEntryMapper;
 import be.kdg.airene.domain.data.Data;
-import be.kdg.airene.ports.in.DataEntryBatchSaverPort;
-import be.kdg.airene.ports.in.GetAllRecentLocationsPort;
-import be.kdg.airene.ports.in.LoadDataByIdPort;
+import be.kdg.airene.domain.location.Location;
+import be.kdg.airene.ports.in.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLocationsPort, LoadDataByIdPort {
+public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLocationsPort, LoadDataByIdPort, GetAvgForLocationPerDayPerHourWithinRadiusPort, GetTotalForLocationPerDayPerHourWithinRadiusPort {
 
 	private final DataRepository dataRepository;
 	private final DataEntryMapper mapper = DataEntryMapper.INSTANCE;
@@ -37,5 +37,24 @@ public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLo
 	@Override
 	public Optional<Data> loadDataById(UUID dataId) {
 		return dataRepository.findById(dataId).map(mapper::mapToDataDomain);
+	}
+
+	@Override
+	public List<DataJPAAverageInfo> getAvgForLocationPerDayPerHourWithinRadius(LocalDate date, Location location, double radiusKm) {
+		return dataRepository.getAverageValuesPerHourAscendingForDayInARadiusOfLocation(
+			date,
+			location.getLatitude(),
+			location.getLongitude(),
+			radiusKm
+		);
+	}
+	@Override
+	public List<DataJPASumInfo> getTotalForLocationPerDayPerHourWithinRadius(LocalDate date, Location location, double radiusKm) {
+		return dataRepository.getTotalValuesPerHourAscendingForDayInARadiusOfLocation(
+			date,
+			location.getLatitude(),
+			location.getLongitude(),
+			radiusKm
+		);
 	}
 }
