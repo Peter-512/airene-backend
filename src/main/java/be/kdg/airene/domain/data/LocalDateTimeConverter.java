@@ -28,7 +28,7 @@ public class LocalDateTimeConverter extends StdDeserializer<LocalDateTime> {
 		try {
 			return LocalDateTime.parse(node.asText(), FORMATTER);
 		} catch (Exception e) {
-			log.error("Error parsing date", e);
+			log.debug("Error parsing date");
 		}
 		Instant instant = Instant.ofEpochMilli(node.asLong());
 		return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
