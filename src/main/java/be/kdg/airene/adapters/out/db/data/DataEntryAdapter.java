@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLocationsPort, LoadDataByIdPort, GetAvgForLocationPerDayPerHourWithinRadiusPort, GetTotalForLocationPerDayPerHourWithinRadiusPort {
+public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLocationsPort, LoadDataByIdPort, GetAvgForLocationPerDayPerHourWithinRadiusPort, GetTotalForLocationPerDayPerHourWithinRadiusPort, GetAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKmPort {
 
 	private final DataRepository dataRepository;
 	private final DataEntryMapper mapper = DataEntryMapper.INSTANCE;
@@ -55,6 +55,18 @@ public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLo
 			location.getLatitude(),
 			location.getLongitude(),
 			radiusKm
+		);
+	}
+
+	@Override
+	public List<Data> getAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKm(LocalDate date, Location location, double radiusKm) {
+		return mapper.mapToDataDomain(
+			dataRepository.getAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKm(
+				date,
+				location.getLatitude(),
+				location.getLongitude(),
+				radiusKm
+			)
 		);
 	}
 }

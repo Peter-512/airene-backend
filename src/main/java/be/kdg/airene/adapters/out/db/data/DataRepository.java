@@ -57,7 +57,6 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 	@Query("""
 			SELECT
 			EXTRACT(HOUR FROM d.timestamp) as hour,
-			SUM(d.airQuality) as sumAirQuality,
 			SUM(d.car) as sumCar,
 			SUM(d.heavy) as sumHeavy,
 			SUM(d.currentCo) as sumCo,
@@ -91,5 +90,21 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 		""")
 	List<DataJPASumInfo> getTotalValuesPerHourAscendingForDayInARadiusOfLocation(LocalDate date, double latitude, double longitude, double radiusKm);
 
+
+	@Query("""
+		SELECT d
+		FROM DataJPA d
+		JOIN AnomalyJPA a ON d.id = a.dataId
+		WHERE DATE (d.timestamp) = :date
+		AND FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) * 
+			FUNCTION('COS', 
+			FUNCTION('RADIANS', d.location.latitude)) 
+			* FUNCTION('COS', 
+			FUNCTION('RADIANS', d.location.longitude) - 
+			FUNCTION('RADIANS', :longitude)) + 
+			FUNCTION('SIN', FUNCTION('RADIANS', :latitude)) * 
+			FUNCTION('SIN', FUNCTION('RADIANS', d.location.latitude))) * 6371 < :radiusKm
+	""")
+	List<DataJPA> getAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKm(LocalDate date, double latitude, double longitude, double radiusKm);
 
 }

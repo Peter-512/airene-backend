@@ -1,7 +1,10 @@
 package be.kdg.airene.adapters.in.web;
 
 import be.kdg.airene.adapters.in.web.dto.SubmitFeedbackDTO;
+import be.kdg.airene.adapters.out.mapper.DataEntryMapper;
 import be.kdg.airene.adapters.out.mapper.FeedbackMapper;
+import be.kdg.airene.adapters.out.mapper.LocationMapper;
+import be.kdg.airene.ports.in.GetAnomaliesForDayAndLocationWithinRadiusKmUseCase;
 import be.kdg.airene.ports.in.SubmitAnomalyFeedbackUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -13,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -24,8 +25,10 @@ import java.util.UUID;
 public class AnomalyController {
 
 	private final SubmitAnomalyFeedbackUseCase submitAnomalyFeedbackUseCase;
+	private final GetAnomaliesForDayAndLocationWithinRadiusKmUseCase anomalyUseCase;
 	private final FeedbackMapper mapper = FeedbackMapper.INSTANCE;
-
+	private final DataEntryMapper dataEntryMapper = DataEntryMapper.INSTANCE;
+	private final LocationMapper locationMapper = LocationMapper.INSTANCE;
 
 	@Cacheable (value = "dataCache", key = "{#date, #latitude, #longitude, #radius}")
 	@GetMapping
@@ -35,12 +38,9 @@ public class AnomalyController {
 			 @Valid @RequestParam("latitude") double latitude,
 			 @Valid @RequestParam("longitude") double longitude,
 			 @RequestParam("radius") double radius) {
-		var data = getAnomaliesForDayAndLocationWithinRadiusKm(date, latitude, longitude, radius);
+		var data = anomalyUseCase.getAnomaliesForDayAndLocationWithinRadiusKm(date, locationMapper.toLocation(latitude, longitude), radius);
 		return ResponseEntity.ok(
-				new HashMap<String, List<?>>(){{
-					put("avg", avg.getAverage());
-					put("total", total.getTotal());
-				}}
+				dataEntryMapper.mapToDTO(data)
 		);
 	}
 
