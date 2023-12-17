@@ -8,6 +8,8 @@ import be.kdg.airene.adapters.out.db.data.DataJPAAverageInfo;
 import be.kdg.airene.adapters.out.db.data.DataJPASumInfo;
 import be.kdg.airene.domain.data.Data;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collection;
@@ -23,6 +25,11 @@ public interface DataEntryMapper {
 	Data mapToDataDomain(DataJPA data);
 	List<Data> mapToDataDomain(List<DataJPA> data);
 
+	@Mappings({
+			@Mapping(target = "latitude", source = "location.latitude"),
+			@Mapping(target = "longitude", source = "location.longitude"),
+	})
+	LocationDTO mapToDTO(Data data);
 	List<LocationDTO> mapToDTO(List<Data> allRecentLocations);
 
 	default AverageDataDTO toAvgDataDTO(List<DataJPAAverageInfo> avgForLocationPerDayPerHourWithinRadius){
