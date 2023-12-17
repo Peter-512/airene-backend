@@ -33,7 +33,6 @@ public class LocationDTO {
 	private double currentGbDefraIndex;
 	private double p1;
 	private double p2;
-	private double airQuality;
 	private double co_aqi;
 	private double no2_aqi;
 	private double o3_aqi;

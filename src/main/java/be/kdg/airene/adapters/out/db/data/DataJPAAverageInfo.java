@@ -2,7 +2,6 @@ package be.kdg.airene.adapters.out.db.data;
 
 public interface DataJPAAverageInfo {
 	Integer getHour();
-	Double getAvgAirQuality();
 	Double getAvgCar();
 	Double getAvgHeavy();
 	Double getAvgCo();

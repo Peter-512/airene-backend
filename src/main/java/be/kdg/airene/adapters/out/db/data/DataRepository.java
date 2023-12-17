@@ -21,7 +21,6 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 	@Query("""
 			SELECT
 			EXTRACT(HOUR FROM d.timestamp) as hour,
-			NULLIF(AVG(d.airQuality),0) as avgairQuality,
 			NULLIF(AVG(d.car),0) as avgCar,
 			NULLIF(AVG(d.heavy),0) as avgHeavy,
 			NULLIF(AVG(d.currentCo),0) as avgCo,

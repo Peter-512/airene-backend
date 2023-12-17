@@ -53,8 +53,6 @@ public class Data {
 	private double currentGbDefraIndex;
 	private double p1;
 	private double p2;
-	@JsonProperty ("air_quality")
-	private double airQuality;
 	private double co_aqi;
 	private double no2_aqi;
 	private double o3_aqi;
@@ -88,7 +86,6 @@ public class Data {
 					<li>GB DEFRA index: %s</li>
 					<li>P1: %s</li>
 					<li>P2: %s</li>
-					<li> Air quality: %s</li>
 					<li>CO AQI: %s</li>
 					<li>NO2 AQI: %s</li>
 					<li>O3 AQI: %s</li>
@@ -97,6 +94,6 @@ public class Data {
 					<li>PM10 AQI: %s</li>
 					<li>AQI: %s</li>
 				</ul>
-				""".formatted(heavy, car, v85, timestamp, location, altitude, sensorType, distanceKm, currentTemperature, currentUv, currentGustKph, currentCo, currentNo2, currentO3, currentSo2, currentPm2_5, currentPm10, currentUsEpaIndex, currentGbDefraIndex, p1, p2, airQuality, co_aqi, no2_aqi, o3_aqi, so2_aqi, pm25_aqi, pm10_aqi, aqi);
+				""".formatted(heavy, car, v85, timestamp, location, altitude, sensorType, distanceKm, currentTemperature, currentUv, currentGustKph, currentCo, currentNo2, currentO3, currentSo2, currentPm2_5, currentPm10, currentUsEpaIndex, currentGbDefraIndex, p1, p2, co_aqi, no2_aqi, o3_aqi, so2_aqi, pm25_aqi, pm10_aqi, aqi);
 	}
 }

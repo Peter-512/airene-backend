@@ -2,7 +2,6 @@ package be.kdg.airene.adapters.out.db.data;
 
 public interface DataJPASumInfo {
 	Integer getHour();
-	Double getSumAirQuality();
 	Double getSumCar();
 	Double getSumHeavy();
 	Double getSumCo();
