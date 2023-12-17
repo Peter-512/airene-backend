@@ -40,7 +40,7 @@ public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLo
 	}
 
 	@Override
-	public List<DataJPAAverageInfo> getAvgForLocationPerDayPerHourWithinRadius(LocalDate date, Location location, double radiusKm) {
+	public List<DataJPAInfo> getAvgForLocationPerDayPerHourWithinRadius(LocalDate date, Location location, double radiusKm) {
 		return dataRepository.getAverageValuesPerHourAscendingForDayInARadiusOfLocation(
 			date,
 			location.getLatitude(),
@@ -49,7 +49,7 @@ public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLo
 		);
 	}
 	@Override
-	public List<DataJPASumInfo> getTotalForLocationPerDayPerHourWithinRadius(LocalDate date, Location location, double radiusKm) {
+	public List<DataJPAInfo> getTotalForLocationPerDayPerHourWithinRadius(LocalDate date, Location location, double radiusKm) {
 		return dataRepository.getTotalValuesPerHourAscendingForDayInARadiusOfLocation(
 			date,
 			location.getLatitude(),

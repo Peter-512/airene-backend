@@ -40,20 +40,20 @@ public class DataController {
 	          @Valid @RequestParam("latitude") double latitude,
 	          @Valid @RequestParam("longitude") double longitude,
 	          @RequestParam("radius") double radius) {
-		var avg = dataEntryMapper.toAvgDataDTO(getAvgDataForDayAndLocationWithinRadiusUseCase.getAvgMedianTotalDataForDayAndLocationWithinRadius(
+		var avg = dataEntryMapper.toDataInfoDTO(getAvgDataForDayAndLocationWithinRadiusUseCase.getAvgMedianTotalDataForDayAndLocationWithinRadius(
 			date,
 			locationMapper.toLocation(latitude, longitude),
 			radius
 		));
-		var total = dataEntryMapper.toTotalDataDTO(getTotalDataForLocationPerHourInARadiusUseCase.getTotalDataForLocationPerHourInARadius(
+		var total = dataEntryMapper.toDataInfoDTO(getTotalDataForLocationPerHourInARadiusUseCase.getTotalDataForLocationPerHourInARadius(
 			date,
 			locationMapper.toLocation(latitude, longitude),
 			radius
 		));
 		return ResponseEntity.ok(
 			new HashMap<String, List<?>>(){{
-				put("avg", avg.getAverage());
-				put("total", total.getTotal());
+				put("avg", avg.getData());
+				put("total", total.getData());
 			}}
 		);
 	}

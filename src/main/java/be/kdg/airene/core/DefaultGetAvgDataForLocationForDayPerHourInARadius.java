@@ -1,6 +1,6 @@
 package be.kdg.airene.core;
 
-import be.kdg.airene.adapters.out.db.data.DataJPAAverageInfo;
+import be.kdg.airene.adapters.out.db.data.DataJPAInfo;
 import be.kdg.airene.domain.location.Location;
 import be.kdg.airene.ports.in.GetAvgDataForDayAndLocationWithinRadiusUseCase;
 import be.kdg.airene.ports.in.GetAvgForLocationPerDayPerHourWithinRadiusPort;
@@ -18,7 +18,7 @@ public class DefaultGetAvgDataForLocationForDayPerHourInARadius implements GetAv
 
 	private final GetAvgForLocationPerDayPerHourWithinRadiusPort getAvgForLocationPerDayPerHourPort;
 	@Override
-	public List<DataJPAAverageInfo> getAvgMedianTotalDataForDayAndLocationWithinRadius(LocalDate date, Location location, double radiusKm) {
+	public List<DataJPAInfo> getAvgMedianTotalDataForDayAndLocationWithinRadius(LocalDate date, Location location, double radiusKm) {
 		return getAvgForLocationPerDayPerHourPort.getAvgForLocationPerDayPerHourWithinRadius(
 			date,
 			location,

@@ -1,6 +1,6 @@
 package be.kdg.airene.core;
 
-import be.kdg.airene.adapters.out.db.data.DataJPASumInfo;
+import be.kdg.airene.adapters.out.db.data.DataJPAInfo;
 import be.kdg.airene.domain.location.Location;
 import be.kdg.airene.ports.in.GetTotalDataForLocationPerHourInARadiusUseCase;
 import be.kdg.airene.ports.in.GetTotalForLocationPerDayPerHourWithinRadiusPort;
@@ -19,7 +19,7 @@ public class DefaultGetTotalDataForLocationPerHourInARadiusUseCase implements Ge
 	private final GetTotalForLocationPerDayPerHourWithinRadiusPort getTotalForLocationPerDayPerHourWithinRadiusPort;
 
 	@Override
-	public List<DataJPASumInfo> getTotalDataForLocationPerHourInARadius(LocalDate date, Location location, double radiusKm) {
+	public List<DataJPAInfo> getTotalDataForLocationPerHourInARadius(LocalDate date, Location location, double radiusKm) {
 		return getTotalForLocationPerDayPerHourWithinRadiusPort.getTotalForLocationPerDayPerHourWithinRadius(
 			date,
 			location,

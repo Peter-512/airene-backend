@@ -33,3 +33,9 @@ logging:
         security: TRACE
     hibernate:
       SQL: info
+
+azure:
+    servicebus:
+        queue:
+        prediction: prediction-cute-dev
+        data: clean-data-queue-dev
