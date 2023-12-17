@@ -30,7 +30,7 @@ public class AnomalyController {
 	private final DataEntryMapper dataEntryMapper = DataEntryMapper.INSTANCE;
 	private final LocationMapper locationMapper = LocationMapper.INSTANCE;
 
-	@Cacheable (value = "dataCache", key = "{#date, #latitude, #longitude, #radius}")
+	@Cacheable (value = "anomalyCache", key = "{#date, #latitude, #longitude, #radius}")
 	@GetMapping
 	public ResponseEntity<?>
 	getAvgMedianTotalDataForDayAndLocationWithinRadiusKm
