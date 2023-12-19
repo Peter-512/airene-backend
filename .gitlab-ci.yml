@@ -60,14 +60,24 @@ deploy:
     script:
         - tag=$CI_COMMIT_REF_NAME
         - az containerapp up --name airene-backend --resource-group int5 --location westeurope --environment prod --target-port 8080 --ingress external --image "$IMAGE_USERNAME.azurecr.io/airene-backend:latest"
+        - az containerapp secret set --name airene-backend --resource-group int5 --secrets
+            azure-sb-namespace=$AZURE_SERVICEBUS_NAMESPACE
+            azure-sb-connection=$AZURE_SERVICEBUS_CONNECTION_STRING
+            azure-sql-db-un=$AZURE_SQL_DB_USERNAME
+            azure-sql-db-pw=$AZURE_SQL_DB_PASSWORD
+            azure-sql-db-url=$AZURE_SQL_DB_URL
+            keycloak-issuer=$KEYCLOAK_ISSUER
+            keycloak-jwt=$KEYCLOAK_JWT
+            azure-mail-endpoint=$AZURE_MAIL_ENDPOINT
+            azure-mail-sender=$AZURE_MAIL_SENDER
         - az containerapp update --name airene-backend --resource-group int5 --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --set-env-vars 
-            AZURE_SERVICEBUS_NAMESPACE=$AZURE_SERVICEBUS_NAMESPACE
-            AZURE_SERVICEBUS_CONNECTION_STRING=$AZURE_SERVICEBUS_CONNECTION_STRING
-            AZURE_SQL_DB_USERNAME=$AZURE_SQL_DB_USERNAME
-            AZURE_SQL_DB_PASSWORD=$AZURE_SQL_DB_PASSWORD
-            AZURE_SQL_DB_URL=$AZURE_SQL_DB_URL
+            AZURE_SERVICEBUS_NAMESPACE=secretref:azure-sb-namespace
+            AZURE_SERVICEBUS_CONNECTION_STRING=secretref:azure-sb-connection
+            AZURE_SQL_DB_USERNAME=secretref:azure-sql-db-un
+            AZURE_SQL_DB_PASSWORD=secretref:azure-sql-db-pw
+            AZURE_SQL_DB_URL=secretref:azure-sql-db-url
             SPRING_PROFILES_ACTIVE=prod
-            KEYCLOAK_ISSUER=$KEYCLOAK_ISSUER
-            KEYCLOAK_JWT=$KEYCLOAK_JWT
-            AZURE_MAIL_ENDPOINT=$AZURE_MAIL_ENDPOINT
-            AZURE_MAIL_SENDER=$AZURE_MAIL_SENDER
+            KEYCLOAK_ISSUER=secretref:keycloak-issuer
+            KEYCLOAK_JWT=secretref:keycloak-jwt
+            AZURE_MAIL_ENDPOINT=secretref:azure-mail-endpoint
+            AZURE_MAIL_SENDER=secretref:azure-mail-sender
