@@ -1,0 +1,23 @@
+properties:
+  scale:
+    minReplicas: 0
+    maxReplicas: 1
+    rules:
+      - azureQueue:
+          auth:
+            - secretRef: "azure-sb-connection"
+              triggerParameter: connection
+          queueName: "clean-data-cute"
+          queueLength: 1000
+        name: azure-clean-data-queue-scale-rule
+      - azureQueue:
+          auth:
+            - secretRef: "azure-sb-connection"
+              triggerParameter: connection
+          queueName: "prediction-cute"
+          queueLength: 1000
+        name: azure-prediction-queue-scale-rule
+      - http:
+          name: http-scale-rule
+          metadata:
+            concurrentRequests: '10'

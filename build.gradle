@@ -89,10 +89,6 @@ dependencies {
             because 'CVE-2023-46589'
         }
 
-        implementation("org.apache.commons:commons-compress:1.25.0"){
-            because 'CVE-2023-42503'
-        }
-
         implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0"){
             because 'CVE-2023-35116'
         }
