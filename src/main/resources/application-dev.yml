@@ -39,3 +39,5 @@ azure:
         queue:
         prediction: prediction-cute-dev
         data: clean-data-queue-dev
+
+frontend-domain: http://localhost:*

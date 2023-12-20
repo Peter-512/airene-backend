@@ -1,6 +1,7 @@
 package be.kdg.airene.config.security;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -27,11 +28,20 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
+
+	@Value("${frontend-domain}")
+	private String frontendDomain;
+
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors(Customizer.withDefaults())
 		    .authorizeHttpRequests((authorize) ->
-				    authorize.anyRequest().authenticated()
+				    authorize.
+						    requestMatchers("/api/locations")
+				    						    .permitAll()
+						    .anyRequest()
+				    						    .authenticated()
 		    )
 		    .sessionManagement(mgmt -> mgmt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		    .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwtAuthenticationConverter()));
@@ -40,14 +50,14 @@ public class SecurityConfiguration {
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-			CorsConfiguration configuration = new CorsConfiguration();
-			configuration.addAllowedOriginPattern("*");
-			configuration.addAllowedHeader("*");
-			configuration.addAllowedMethod("*");
-			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-			source.registerCorsConfiguration("/**", configuration);
-			return source;
-		}
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOriginPattern(frontendDomain);
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 	@Bean
 	JwtAuthenticationConverter jwtAuthenticationConverter() {

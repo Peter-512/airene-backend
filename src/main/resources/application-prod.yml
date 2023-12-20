@@ -26,3 +26,5 @@ azure:
     queue:
       prediction: prediction-cute
       data: clean-data-cute
+
+frontend-domain: ${AIRENE_FRONTEND_DOMAIN}
