@@ -1,23 +1,30 @@
 properties:
-  scale:
-    minReplicas: 0
-    maxReplicas: 1
-    rules:
-      - azureQueue:
-          auth:
-            - secretRef: "azure-sb-connection"
-              triggerParameter: connection
-          queueName: "clean-data-cute"
-          queueLength: 1000
-        name: azure-clean-data-queue-scale-rule
-      - azureQueue:
-          auth:
-            - secretRef: "azure-sb-connection"
-              triggerParameter: connection
-          queueName: "prediction-cute"
-          queueLength: 1000
-        name: azure-prediction-queue-scale-rule
-      - http:
+  template:
+    scale:
+      minReplicas: 0
+      maxReplicas: 1
+      rules:
+        - custom:
+            auth:
+              - secretRef: "azure-sb-connection"
+                triggerParameter: connection
+            metadata:
+              messageCount: '1000'
+              namespace: "secretref:azure-sb-namespace"
+              queueName: "prediction-cute"
+            type: azure-servicebus
+          name: azure-prediction-queue-scale-rule
+        - custom:
+            auth:
+              - secretRef: "azure-sb-connection"
+                triggerParameter: connection
+            metadata:
+              messageCount: '1000'
+              namespace: "secretref:azure-sb-namespace"
+              queueName: "clean-data-cute"
+            type: azure-servicebus
+          name: azure-clean-data-queue-scale-rule
+        - http:
+            metadata:
+              concurrentRequests: '10'
           name: http-scale-rule
-          metadata:
-            concurrentRequests: '10'
