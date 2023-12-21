@@ -81,4 +81,5 @@ deploy:
             KEYCLOAK_JWT=secretref:keycloak-jwt
             AZURE_MAIL_ENDPOINT=secretref:azure-mail-endpoint
             AZURE_MAIL_SENDER=secretref:azure-mail-sender
+            FRONTEND_DOMAIN=$FRONTEND_DOMAIN
         - az containerapp update --name airene-backend --resource-group int5 --yaml containerapp.yaml

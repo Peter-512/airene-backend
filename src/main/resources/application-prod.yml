@@ -27,4 +27,4 @@ azure:
       prediction: prediction-cute
       data: clean-data-cute
 
-frontend-domain: ${AIRENE_FRONTEND_DOMAIN}
+frontend-domain: ${FRONTEND_DOMAIN}

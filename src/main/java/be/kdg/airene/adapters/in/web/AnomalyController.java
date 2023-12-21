@@ -10,9 +10,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -43,6 +45,11 @@ public class AnomalyController {
 				dataEntryMapper.mapToDTO(data)
 		);
 	}
+
+
+	@CacheEvict(value = "anomalyCache", allEntries = true)
+	@Scheduled(fixedRateString = "3600") // 1 hour
+	public void clearCache() {}
 
 	@PostMapping("/{id}")
 	public ResponseEntity<Void> submitFeedback(@RequestBody SubmitFeedbackDTO submitFeedbackDTO, @PathVariable UUID id) {
