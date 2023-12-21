@@ -70,6 +70,7 @@ deploy:
             keycloak-jwt=$KEYCLOAK_JWT
             azure-mail-endpoint=$AZURE_MAIL_ENDPOINT
             azure-mail-sender=$AZURE_MAIL_SENDER
+            frontend-domain=$FRONTEND_DOMAIN
         - az containerapp update --name airene-backend --resource-group int5 --cpu 1 --memory 2Gi --set-env-vars 
             AZURE_SERVICEBUS_NAMESPACE=secretref:azure-sb-namespace
             AZURE_SERVICEBUS_CONNECTION_STRING=secretref:azure-sb-connection
@@ -81,5 +82,5 @@ deploy:
             KEYCLOAK_JWT=secretref:keycloak-jwt
             AZURE_MAIL_ENDPOINT=secretref:azure-mail-endpoint
             AZURE_MAIL_SENDER=secretref:azure-mail-sender
-            FRONTEND_DOMAIN=$FRONTEND_DOMAIN
+            FRONTEND_DOMAIN=secretref:frontend-domain
         - az containerapp update --name airene-backend --resource-group int5 --yaml containerapp.yaml
