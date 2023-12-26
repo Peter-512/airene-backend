@@ -2,10 +2,14 @@
 POST {{tokenURL}}
 Content-Type: application/x-www-form-urlencoded
 
-client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=password&username={{username}}&password={{password}}
+client_id = {{clientId}} &
+client_secret = {{clientSecret}} &
+grant_type = password &
+username = {{username}} &
+password = {{password}}
 
 > {%
-    client.global.set("access_token", response.body.access_token);
+	client.global.set("access_token", response.body.access_token);
 %}
 
 
@@ -21,40 +25,60 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-        "name": "Peter",
-        "id": "00a7e265-6be2-4d91-b1c9-20fce7d00566",
-        "email": "peter.buschenreiter@student.kdg.be"
+  "name": "Peter",
+  "id": "{{userID}}",
+  "email": "peter.buschenreiter@student.kdg.be"
 }
 
 ### Subscribe
-POST {{baseUrl}}/api/users/00a7e265-6be2-4d91-b1c9-20fce7d00566/subscriptions
+POST {{baseUrl}}/api/users/{{userID}}/subscriptions
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "latitude": 50.83,
-  "longitude": 4.364,
-  "address": "Karel de Grote Hogeschool, Campus Zuid, Brusselstraat, Zuid, Antwerpen, Antwerpen, Vlaanderen, 2018, België"
+  "latitude": {{$random.float(-180, 180)}},
+  "longitude": {{$random.float(-180, 180)}},
+  "address": "{{$random.alphabetic(30)}}"
 }
 
 > {%
-  client.global.set("subscriptionId", response.body.id);
+	client.global.set("subscriptionId", response.body.id);
 %}
 
 
 ### Get Subscriptions
-GET {{baseUrl}}/api/users/00a9e265-6be2-4d91-b1c9-20fce7d00566/subscriptions
+GET {{baseUrl}}/api/users/{{userID}}/subscriptions
 Authorization: Bearer {{access_token}}
 
 ### Unsuscribe
-DELETE {{baseUrl}}/api/users/00a9e265-6be2-4d91-b1c9-20fce7d00566/subscriptions/{{subscriptionId}}/unsubscribe
+DELETE {{baseUrl}}/api/users/{{userID}}/subscriptions/{{subscriptionId}}/unsubscribe
 Authorization: Bearer {{access_token}}
 
+### Pause Subscription
+PATCH {{baseUrl}}/api/users/00a7e265-6be2-4d91-b1c9-20fce7d00566/subscriptions/{{subscriptionId}}/pause
+Authorization: Bearer {{access_token}}
 
 ### Get Data
-GET {{baseUrl}}/api/data?date=2023-11-20&latitude=50.83&longitude=4.364&radius=4
+GET {{baseUrl}}/api/data
+    ?date=2023-12-30
+    &latitude=50.83
+    &longitude=4.364
+    &radius=4
 Authorization: Bearer {{access_token}}
 
 ### GET recent data
 GET {{baseUrl}}/api/locations
+Authorization: Bearer {{access_token}}
+
+### Feedback
+POST {{baseUrl}}/api/anomalies/da3a3c1f-a359-11ee-9f6d-0242ac130002
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "feedbackReason": "FIRE"
+}
+
+### Get Notifications
+GET {{baseUrl}}/api/users/00a7e265-6be2-4d91-b1c9-20fce7d00566/notifications
 Authorization: Bearer {{access_token}}

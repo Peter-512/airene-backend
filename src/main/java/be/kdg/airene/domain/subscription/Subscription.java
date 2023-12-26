@@ -5,6 +5,7 @@ import be.kdg.airene.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -12,6 +13,8 @@ import java.util.UUID;
 public class Subscription {
 	private UUID id;
 	private User user;
+	private boolean pause = false;
+	private LocalDateTime createdAt = LocalDateTime.now();
 	private SubscribedLocation location;
 
 	public static Subscription subscribe(User user, SubscribedLocation location) {
@@ -19,5 +22,8 @@ public class Subscription {
 		subscription.setUser(user);
 		subscription.setLocation(location);
 		return subscription;
+	}
+	public void togglePause() {
+		this.pause = !this.pause;
 	}
 }

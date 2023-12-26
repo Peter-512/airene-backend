@@ -5,8 +5,10 @@ import be.kdg.airene.domain.subscription.Subscription;
 import be.kdg.airene.ports.in.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -20,8 +22,9 @@ public class SubscriptionsAdapter implements UpdateSubscriptionPort, LoadSubscri
 	private final SubscriptionMapper mapper = SubscriptionMapper.INSTANCE;
 
 	@Override
-	public Set<Subscription> loadSubscriptionsByUserId(UUID userId) {
-		Set<Subscription> subscriptions = mapper.toDomain(subscriptionRepository.findAllByUserId(userId));
+	public Set<Subscription> loadSubscriptionsByUserId(UUID userId, String sort) {
+		Sort sortBy = Objects.equals(sort, "desc") ? Sort.by(Sort.Direction.DESC, "createdAt") : Sort.by(Sort.Direction.ASC, "createdAt");
+		Set<Subscription> subscriptions = mapper.toDomain(subscriptionRepository.findByUser_Id(userId, sortBy));
 		log.debug("Loaded {} subscriptions for user with id {}", subscriptions.size(), userId);
 		return subscriptions;
 	}

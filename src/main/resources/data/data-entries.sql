@@ -1,4 +1,4 @@
-INSERT INTO app_db.data (altitude, aqi, car, co_aqi, current_co, current_gb_defra_index, current_gust_kph, current_no2,
+INSERT INTO data (altitude, aqi, car, co_aqi, current_co, current_gb_defra_index, current_gust_kph, current_no2,
                          current_pm10, current_pm2_5, current_so2, current_temperature, current_us_epa_index,
                          current_uv, currento3, distance_km, heavy, latitude, longitude, no2_aqi, o3_aqi, p1, p2,
                          pm10_aqi, pm25_aqi, so2_aqi, v85, current_last_updated, segment_id, sensor_id, timestamp, id,

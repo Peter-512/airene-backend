@@ -8,11 +8,10 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class SubscriptionDTO {
+public class NotificationDTO {
 	private UUID id;
-	private double latitude;
-	private double longitude;
-	private String address;
-	private boolean pause;
-	private LocalDateTime createdAt;
+	private UUID anomalyId;
+	private UUID dataId;
+	private boolean hasProvidedFeedback;
+	private LocalDateTime timestamp;
 }

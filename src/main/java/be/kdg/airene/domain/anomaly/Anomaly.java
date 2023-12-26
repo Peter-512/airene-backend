@@ -30,7 +30,9 @@ public class Anomaly {
 		return anomaly;
 	}
 
-	public void submitFeedback(Feedback feedback) {
+	public Feedback submitFeedback(Feedback feedback) {
+		feedback.setAnomaly(this);
 		this.feedbackList.add(feedback);
+		return feedback;
 	}
 }

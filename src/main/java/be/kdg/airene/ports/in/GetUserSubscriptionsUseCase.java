@@ -6,5 +6,5 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface GetUserSubscriptionsUseCase {
-	Set<Subscription> getUserSubscriptions(UUID userId);
+	Set<Subscription> getUserSubscriptions(UUID userId, String sort);
 }

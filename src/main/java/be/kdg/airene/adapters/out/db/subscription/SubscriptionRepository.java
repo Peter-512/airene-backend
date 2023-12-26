@@ -1,5 +1,6 @@
 package be.kdg.airene.adapters.out.db.subscription;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface SubscriptionRepository extends JpaRepository<SubscriptionJPA, UUID> {
-	Set<SubscriptionJPA> findAllByUserId(UUID userId);
-
+	Set<SubscriptionJPA> findByUser_Id(UUID userId, Sort sort);
 	Optional<SubscriptionJPA> findByUserIdAndId(UUID userId, UUID id);
 
 	@Query(value = """

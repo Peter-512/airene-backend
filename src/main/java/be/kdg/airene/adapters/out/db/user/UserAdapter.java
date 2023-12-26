@@ -30,15 +30,6 @@ public class UserAdapter implements LoadUserPort, CreateUserPort, SaveUserPort {
 		return true;
 	}
 
-//	@Override
-//	public List<User> loadUsersSubscribedToNearestAnomaly(double latitude, double longitude) {
-//		// 1KM radius TODO: add subscription radius
-//		List<UserJPA> allByNearestLocationLatitudeAndNearestLocationLongitude = userRepository.findAllByNearestLocationLatitudeAndNearestLocationLongitude(latitude, longitude, 4);
-//		return allByNearestLocationLatitudeAndNearestLocationLongitude.stream()
-//		                                                              .map(userMapper::toDomain)
-//		                                                              .toList();
-//	}
-
 	@Override
 	public void saveUser(User user) {
 		userRepository.save(userMapper.toJPA(user));

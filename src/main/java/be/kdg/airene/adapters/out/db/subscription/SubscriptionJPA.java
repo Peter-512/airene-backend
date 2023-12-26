@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "subscription")
+@Table(name = "subscriptions")
 @Getter
 @Setter
 public class SubscriptionJPA {
@@ -20,4 +21,6 @@ public class SubscriptionJPA {
 	private UserJPA user;
 	@Embedded
 	private SubscribedLocationJPA location;
+	private boolean pause = false;
+	private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface LoadSubscriptionsByUserIdPort {
-	Set<Subscription> loadSubscriptionsByUserId(UUID userId);
+	Set<Subscription> loadSubscriptionsByUserId(UUID userId, String sort);
 }

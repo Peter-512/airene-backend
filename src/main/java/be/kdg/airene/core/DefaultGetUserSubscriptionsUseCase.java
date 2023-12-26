@@ -18,8 +18,8 @@ public class DefaultGetUserSubscriptionsUseCase implements GetUserSubscriptionsU
 	private final LoadSubscriptionsByUserIdPort loadSubscriptionsByUserIdPort;
 
 	@Override
-	public Set<Subscription> getUserSubscriptions(UUID userId) {
-		Set<Subscription> subscriptions = loadSubscriptionsByUserIdPort.loadSubscriptionsByUserId(userId);
+	public Set<Subscription> getUserSubscriptions(UUID userId, String sort) {
+		Set<Subscription> subscriptions = loadSubscriptionsByUserIdPort.loadSubscriptionsByUserId(userId, sort);
 		log.debug("User with id {} has {} subscriptions", userId, subscriptions.size());
 		return subscriptions;
 	}

@@ -4,11 +4,9 @@ import be.kdg.airene.domain.anomaly.Anomaly;
 import be.kdg.airene.domain.anomaly.Prediction;
 import be.kdg.airene.domain.data.Data;
 import be.kdg.airene.domain.location.Location;
+import be.kdg.airene.domain.notification.Notification;
 import be.kdg.airene.domain.subscription.Subscription;
-import be.kdg.airene.ports.in.AnomalyDetectedUseCase;
-import be.kdg.airene.ports.in.AnomalySavePort;
-import be.kdg.airene.ports.in.LoadDataByIdPort;
-import be.kdg.airene.ports.in.NearestSubscriptionsLoadPort;
+import be.kdg.airene.ports.in.*;
 import be.kdg.airene.ports.out.AnomalyNotifyPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +21,7 @@ import java.util.Set;
 @Slf4j
 public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 	private final AnomalySavePort anomalySavePort;
+	private final SaveNotificationPort saveNotificationPort;
 	private List<AnomalyNotifyPort> anomalyNotifyPorts;
 	private final LoadDataByIdPort loadDataByPredictionIdPort;
 	private final NearestSubscriptionsLoadPort nearestSubscriptionsLoadPort;
@@ -34,7 +33,8 @@ public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 		Location location = prediction.getLocation();
 		Set<Subscription> subscriptions = nearestSubscriptionsLoadPort.loadNearestSubscriptions(location.getLatitude(), location.getLongitude());
 		log.debug("Found {} subscriptions near anomaly detected at location: {}", subscriptions.size(), location);
-		anomalySavePort.saveAnomaly(Anomaly.anomalyDetected(prediction));
+		Anomaly anomalyDetection = Anomaly.anomalyDetected(prediction);
+		Anomaly anomaly = anomalySavePort.saveAnomaly(anomalyDetection);
 		Optional<Data> optData = loadDataByPredictionIdPort.loadDataById(prediction.getDataId());
 		if (subscriptions.isEmpty()) {
 			log.info("No users subscribed to anomaly detected at location: {}", location);
@@ -45,6 +45,11 @@ public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 			return;
 		}
 		Data data = optData.get();
-		anomalyNotifyPorts.forEach(anomalyNotifyPort -> anomalyNotifyPort.notifyAnomaly(List.copyOf(subscriptions), data));
+		subscriptions.parallelStream().filter(subscription -> !subscription.isPause())
+				.forEach(subscription -> {
+					Notification notification = Notification.notify(subscription.getUser().getId(), anomaly.getId(), anomaly.getDataId());
+					saveNotificationPort.saveNotification(notification);
+				});
+		anomalyNotifyPorts.parallelStream().forEach(anomalyNotifyPort -> anomalyNotifyPort.notifyAnomaly(List.copyOf(subscriptions), data));
 	}
 }
