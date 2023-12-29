@@ -19,80 +19,80 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 	List<DataJPA> findMostRecentData();
 
 
-	@Query(value = """
-		SELECT
-          EXTRACT(HOUR FROM d.timestamp) as hour,
-          avg(d.car) as car,
-          avg(d.heavy) as heavy,
-          avg(d.current_co) as co,
-          avg(d.current_no2) as no2,
-          avg(d.current_pm2_5) as pm2_5,
-          avg(d.current_pm10) as pm10,
-          avg(d.current_so2) as so2,
-          avg(d.currentO3) as o3,
-          avg(d.v85) as v85,
-          avg(d.p1) as p1,
-          avg(d.p2) as p2,
-          avg(d.no2_aqi) as no2Aqi,
-          avg(d.o3_aqi) as o3Aqi,
-          avg(d.so2_aqi) as so2Aqi,
-          avg(d.pm25_aqi) as pm25Aqi,
-          avg(d.pm10_aqi) as pm10Aqi,
-          avg(d.co_aqi) as coAqi,
-          avg(d.aqi) as aqi
-      FROM data d
-      WHERE DATE (d.timestamp) = :date
-        AND :latitude BETWEEN (d.latitude  - :radiusKm/69.0) AND (d.latitude  + :radiusKm/69.0)
-        AND :longitude BETWEEN (d.longitude - :radiusKm/42.5) AND (d.longitude + :radiusKm/42.5)
-        AND acos( cos( radians( :latitude)) *
-                             cos(
-                                      radians( d.latitude))
-                                 * cos(
-                                            radians( d.longitude) -
-                                            radians( :longitude)) +
-                             sin( radians( :latitude)) *
-                             sin( radians( d.latitude))) * 6371 < :radiusKm
-      GROUP BY EXTRACT(HOUR FROM d.timestamp)
-      ORDER BY EXTRACT(HOUR FROM d.timestamp)
-		""", nativeQuery = true)
+	@Query("""
+			SELECT
+			EXTRACT(HOUR FROM d.timestamp) as hour,
+			NULLIF(AVG(d.car),0) as car,
+			NULLIF(AVG(d.heavy),0) as heavy,
+			NULLIF(AVG(d.currentCo),0) as co,
+			NULLIF(AVG(d.currentNo2),0) as no2,
+			NULLIF(AVG(d.currentPm2_5),0) as pm2_5,
+			NULLIF(AVG(d.currentPm10),0) as pm10,
+			NULLIF(AVG(d.currentSo2),0) as so2,
+			NULLIF(AVG(d.currentO3),0) as o3,
+			NULLIF(AVG(d.v85),0) as v85,
+			NULLIF(AVG(d.p1),0) as p1,
+			NULLIF(AVG(d.p2),0) as p2,
+			NULLIF(AVG(d.no2_aqi),0) as no2Aqi,
+			NULLIF(AVG(d.o3_aqi),0) as o3Aqi,
+			NULLIF(AVG(d.so2_aqi),0) as so2Aqi,
+			NULLIF(AVG(d.pm25_aqi),0) as pm25Aqi,
+			NULLIF(AVG(d.pm10_aqi),0) as pm10Aqi,
+			NULLIF(AVG(d.co_aqi),0) as coAqi,
+			NULLIF(AVG(d.aqi),0) as aqi
+			FROM DataJPA d
+			WHERE DATE (d.timestamp) = :date
+			AND :latitude BETWEEN (d.location.latitude  - :radiusKm/69.0) AND (d.location.latitude  + :radiusKm/69.0)
+            AND :longitude BETWEEN (d.location.longitude - :radiusKm/42.5) AND (d.location.longitude + :radiusKm/42.5)
+			AND FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) *
+			FUNCTION('COS',
+			FUNCTION('RADIANS', d.location.latitude))
+			* FUNCTION('COS',
+			FUNCTION('RADIANS', d.location.longitude) -
+			FUNCTION('RADIANS', :longitude)) +
+			FUNCTION('SIN', FUNCTION('RADIANS', :latitude)) *
+			FUNCTION('SIN', FUNCTION('RADIANS', d.location.latitude))) * 6371 < :radiusKm
+			GROUP BY EXTRACT(HOUR FROM d.timestamp)
+			ORDER BY EXTRACT(HOUR FROM d.timestamp) ASC
+		""")
 	List<DataJPAInfo> getAverageValuesPerHourAscendingForDayInARadiusOfLocation(LocalDate date, double latitude, double longitude, double radiusKm);
 
-	@Query(value = """
+	@Query("""
 			SELECT
-          EXTRACT(HOUR FROM d.timestamp) as hour,
-          SUM(d.car) as car,
-          SUM(d.heavy) as heavy,
-          SUM(d.current_co) as co,
-          SUM(d.current_no2) as no2,
-          SUM(d.current_pm2_5) as pm2_5,
-          SUM(d.current_pm10) as pm10,
-          SUM(d.current_so2) as so2,
-          SUM(d.currentO3) as o3,
-          SUM(d.v85) as v85,
-          SUM(d.p1) as p1,
-          SUM(d.p2) as p2,
-          SUM(d.no2_aqi) as no2Aqi,
-          SUM(d.o3_aqi) as o3Aqi,
-          SUM(d.so2_aqi) as so2Aqi,
-          SUM(d.pm25_aqi) as pm25Aqi,
-          SUM(d.pm10_aqi) as pm10Aqi,
-          SUM(d.co_aqi) as coAqi,
-          SUM(d.aqi) as aqi
-      FROM data d
-      WHERE DATE (d.timestamp) = :date
-        AND :latitude BETWEEN (d.latitude  - :radiusKm/69.0) AND (d.latitude  + :radiusKm/69.0)
-        AND :longitude BETWEEN (d.longitude - :radiusKm/42.5) AND (d.longitude + :radiusKm/42.5)
-        AND acos( cos( radians( :latitude)) *
-                             cos(
-                                      radians( d.latitude))
-                                 * cos(
-                                            radians( d.longitude) -
-                                            radians( :longitude)) +
-                             sin( radians( :latitude)) *
-                             sin( radians( d.latitude))) * 6371 < :radiusKm
-      GROUP BY EXTRACT(HOUR FROM d.timestamp)
-      ORDER BY EXTRACT(HOUR FROM d.timestamp)
-		""", nativeQuery = true)
+			EXTRACT(HOUR FROM d.timestamp) as hour,
+			SUM(d.car) as car,
+			SUM(d.heavy) as heavy,
+			SUM(d.currentCo) as co,
+			SUM(d.currentNo2) as no2,
+			SUM(d.currentPm2_5) as pm2_5,
+			SUM(d.currentPm10) as pm10,
+			SUM(d.currentSo2) as so2,
+			SUM(d.currentO3) as o3,
+			SUM(d.v85) as v85,
+			SUM(d.p1) as p1,
+			SUM(d.p2) as p2,
+			SUM(d.no2_aqi) as no2Aqi,
+			SUM(d.o3_aqi) as o3Aqi,
+			SUM(d.so2_aqi) as so2Aqi,
+			SUM(d.pm25_aqi) as pm25Aqi,
+			SUM(d.pm10_aqi) as pm10Aqi,
+			SUM(d.co_aqi) as coAqi,
+			SUM(d.aqi) as aqi
+			FROM DataJPA d
+			WHERE DATE (d.timestamp) = :date
+			AND :latitude BETWEEN (d.location.latitude  - :radiusKm/69.0) AND (d.location.latitude  + :radiusKm/69.0)
+            AND :longitude BETWEEN (d.location.longitude - :radiusKm/42.5) AND (d.location.longitude + :radiusKm/42.5)
+			AND FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) * 
+			FUNCTION('COS', 
+			FUNCTION('RADIANS', d.location.latitude)) 
+			* FUNCTION('COS', 
+			FUNCTION('RADIANS', d.location.longitude) - 
+			FUNCTION('RADIANS', :longitude)) + 
+			FUNCTION('SIN', FUNCTION('RADIANS', :latitude)) * 
+			FUNCTION('SIN', FUNCTION('RADIANS', d.location.latitude))) * 6371 < :radiusKm
+			GROUP BY EXTRACT(HOUR FROM d.timestamp)
+			ORDER BY EXTRACT(HOUR FROM d.timestamp) ASC
+		""")
 	List<DataJPAInfo> getTotalValuesPerHourAscendingForDayInARadiusOfLocation(LocalDate date, double latitude, double longitude, double radiusKm);
 
 

@@ -1,8 +1,8 @@
 INSERT INTO data (altitude, aqi, car, co_aqi, current_co, current_gb_defra_index, current_gust_kph, current_no2,
-                  current_pm10, current_pm2_5, current_so2, current_temperature, current_us_epa_index,
-                  current_uv, currento3, distance_km, heavy, latitude, longitude, no2_aqi, o3_aqi, p1, p2,
-                  pm10_aqi, pm25_aqi, so2_aqi, v85, current_last_updated, segment_id, sensor_id, timestamp, id,
-                  manufacturer, name)
+                         current_pm10, current_pm2_5, current_so2, current_temperature, current_us_epa_index,
+                         current_uv, currento3, distance_km, heavy, latitude, longitude, no2_aqi, o3_aqi, p1, p2,
+                         pm10_aqi, pm25_aqi, so2_aqi, v85, current_last_updated, segment_id, sensor_id, timestamp, id,
+                         manufacturer, name)
 VALUES (19.5, 18.7133888889, 625.0869393304, 2.737, 273.7, 1, 8.9, 17.8, 3.1, 2.4, 3.7, 3, 1, 2, 50.8, 0.9965831219,
         155.110981812, 50.8528553, 4.3585609, 44.5, 42.3333333333, 93.65, 8.99, 7.75, 12, 2.96, 21,
         '2023-11-28 14:45:00.000000', 9000003343, 9, '2023-11-28 15:00:00.000000', 0x000006A864674FF9954135102C4D4310,
@@ -15355,16 +15355,4 @@ SELECT
 FROM data d
 WHERE d.id IN (0x013CF7B05A55449B9296316B1FC4C4D9, 0x013B8DA66EE1477197652B006F66DC2A,
                0x013CCBB8F338409BBEE592CFD9B0F6F6, 0x013CA849453A412291CB86E4B872DBB2,
-               0x013C7BAD0DD04E56B890B381BE95C101, 0x00001DA2F38A4F97AD4EA0BBBD766BA9);
-
-INSERT INTO users (id, email, name)
-VALUES (UUID_TO_BIN('6d9b2f4c-8c07-4f3c-96b0-7812192e7bb2'), 'peter.buschenreiter@gmail.com', 'Peter Buschenreiter');
-
-INSERT notifications (has_provided_feedback, timestamp, anomaly_id, data_id, id, user_id)
-SELECT false,
-       a.timestamp,
-       a.id                                                as anomaly_id,
-       a.data_id,
-       UUID_TO_BIN(UUID())                                 as id,
-       UUID_TO_BIN('6d9b2f4c-8c07-4f3c-96b0-7812192e7bb2') as user_id
-from anomalies a;
+               0x013C7BAD0DD04E56B890B381BE95C101)
