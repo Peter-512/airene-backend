@@ -42,8 +42,6 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 			NULLIF(AVG(d.aqi),0) as aqi
 			FROM DataJPA d
 			WHERE DATE (d.timestamp) = :date
-			AND :latitude BETWEEN (d.location.latitude  - :radiusKm/69.0) AND (d.location.latitude  + :radiusKm/69.0)
-            AND :longitude BETWEEN (d.location.longitude - :radiusKm/42.5) AND (d.location.longitude + :radiusKm/42.5)
 			AND FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) *
 			FUNCTION('COS',
 			FUNCTION('RADIANS', d.location.latitude))
@@ -80,8 +78,6 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 			SUM(d.aqi) as aqi
 			FROM DataJPA d
 			WHERE DATE (d.timestamp) = :date
-			AND :latitude BETWEEN (d.location.latitude  - :radiusKm/69.0) AND (d.location.latitude  + :radiusKm/69.0)
-            AND :longitude BETWEEN (d.location.longitude - :radiusKm/42.5) AND (d.location.longitude + :radiusKm/42.5)
 			AND FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) * 
 			FUNCTION('COS', 
 			FUNCTION('RADIANS', d.location.latitude)) 
@@ -101,8 +97,6 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 		FROM DataJPA d
 		JOIN AnomalyJPA a ON d.id = a.dataId
 		WHERE DATE (d.timestamp) = :date
-		AND :latitude BETWEEN (d.location.latitude  - :radiusKm/69.0) AND (d.location.latitude  + :radiusKm/69.0)
-        AND :longitude BETWEEN (d.location.longitude - :radiusKm/42.5) AND (d.location.longitude + :radiusKm/42.5)
 		AND FUNCTION('ACOS', FUNCTION('COS', FUNCTION('RADIANS', :latitude)) * 
 			FUNCTION('COS', 
 			FUNCTION('RADIANS', d.location.latitude)) 
