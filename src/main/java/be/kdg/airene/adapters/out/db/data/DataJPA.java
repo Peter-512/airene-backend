@@ -1,9 +1,6 @@
 package be.kdg.airene.adapters.out.db.data;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,11 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "data")
+@Table(name = "data", indexes = {
+		@Index(name = "idx_data_timestamp", columnList = "timestamp"),
+		@Index(name = "idx_data_longitude", columnList = "longitude"),
+		@Index(name = "idx_data_latitude", columnList = "latitude"),
+})
 public class DataJPA {
 	@Id
 	private UUID id;
