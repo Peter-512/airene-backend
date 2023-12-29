@@ -22,24 +22,24 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 	@Query(value = """
 		SELECT
           EXTRACT(HOUR FROM d.timestamp) as hour,
-          avg(d.car) as car,
-          avg(d.heavy) as heavy,
-          avg(d.current_co) as co,
-          avg(d.current_no2) as no2,
-          avg(d.current_pm2_5) as pm2_5,
-          avg(d.current_pm10) as pm10,
-          avg(d.current_so2) as so2,
-          avg(d.currentO3) as o3,
-          avg(d.v85) as v85,
-          avg(d.p1) as p1,
-          avg(d.p2) as p2,
-          avg(d.no2_aqi) as no2Aqi,
-          avg(d.o3_aqi) as o3Aqi,
-          avg(d.so2_aqi) as so2Aqi,
-          avg(d.pm25_aqi) as pm25Aqi,
-          avg(d.pm10_aqi) as pm10Aqi,
-          avg(d.co_aqi) as coAqi,
-          avg(d.aqi) as aqi
+          nullif(avg(d.car), 0) as car,
+          nullif(avg(d.heavy), 0) as heavy,
+          nullif(avg(d.current_co), 0) as co,
+          nullif(avg(d.current_no2), 0) as no2,
+          nullif(avg(d.current_pm2_5), 0) as pm2_5,
+          nullif(avg(d.current_pm10), 0) as pm10,
+          nullif(avg(d.current_so2), 0) as so2,
+          nullif(avg(d.currentO3), 0) as o3,
+          nullif(avg(d.v85), 0) as v85,
+          nullif(avg(d.p1), 0) as p1,
+          nullif(avg(d.p2), 0) as p2,
+          nullif(avg(d.no2_aqi), 0) as no2Aqi,
+          nullif(avg(d.o3_aqi), 0) as o3Aqi,
+          nullif(avg(d.so2_aqi), 0) as so2Aqi,
+          nullif(avg(d.pm25_aqi), 0) as pm25Aqi,
+          nullif(avg(d.pm10_aqi), 0) as pm10Aqi,
+          nullif(avg(d.co_aqi), 0) as coAqi,
+          nullif(avg(d.aqi), 0) as aqi
       FROM data d
       WHERE DATE (d.timestamp) = :date
         AND :latitude BETWEEN (d.latitude  - :radiusKm/69.0) AND (d.latitude  + :radiusKm/69.0)
