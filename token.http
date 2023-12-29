@@ -60,7 +60,7 @@ Authorization: Bearer {{access_token}}
 
 ### Get Data
 GET {{baseUrl}}/api/data
-    ?date=2023-12-30
+    ?date=2023-11-28
     &latitude=50.83
     &longitude=4.364
     &radius=4
