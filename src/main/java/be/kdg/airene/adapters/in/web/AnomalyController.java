@@ -1,9 +1,11 @@
 package be.kdg.airene.adapters.in.web;
 
+import be.kdg.airene.adapters.in.web.dto.LocationDTO;
 import be.kdg.airene.adapters.in.web.dto.SubmitFeedbackDTO;
 import be.kdg.airene.adapters.out.mapper.DataEntryMapper;
 import be.kdg.airene.adapters.out.mapper.FeedbackMapper;
 import be.kdg.airene.adapters.out.mapper.LocationMapper;
+import be.kdg.airene.ports.in.GetAllRecentAnomalyLocationsUseCase;
 import be.kdg.airene.ports.in.GetAnomaliesForDayAndLocationWithinRadiusKmUseCase;
 import be.kdg.airene.ports.in.SubmitAnomalyFeedbackUseCase;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,9 +32,11 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/api/anomalies")
 public class AnomalyController {
-	private CacheManager cacheManager;
+	private final CacheManager cacheManager;
 	private final SubmitAnomalyFeedbackUseCase submitAnomalyFeedbackUseCase;
 	private final GetAnomaliesForDayAndLocationWithinRadiusKmUseCase anomalyUseCase;
+	private final GetAllRecentAnomalyLocationsUseCase getAllRecentAnomalyLocationsUseCase;
+
 	private final FeedbackMapper mapper = FeedbackMapper.INSTANCE;
 	private final DataEntryMapper dataEntryMapper = DataEntryMapper.INSTANCE;
 	private final LocationMapper locationMapper = LocationMapper.INSTANCE;
@@ -50,6 +55,12 @@ public class AnomalyController {
 		);
 	}
 
+	@Cacheable(value = "anomalyLocations", key = "{#timestamp}")
+	@GetMapping("/at")
+	public ResponseEntity<List<LocationDTO>> getLocationsAnomaly(@RequestParam("timestamp") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timestamp){
+		return ResponseEntity.ok(dataEntryMapper.mapToDTO(getAllRecentAnomalyLocationsUseCase.getAllRecentAnomalyLocations(timestamp)));
+	}
+
 
 	@Scheduled (fixedRateString = "1", timeUnit = TimeUnit.HOURS)
 	public void clearCache() {
@@ -62,6 +73,24 @@ public class AnomalyController {
 		if (keySet == null || keySet.stream().toList().isEmpty()) return;
 		keySet.forEach(key -> {
 			var date = (LocalDate) ((List<Object>) key).getFirst();
+			if (!date.isBefore(currentDate)) {
+				log.debug("evicting key: " + key);
+				cache.evict(key);
+			}
+		});
+	}
+
+	@Scheduled (fixedRateString = "20", timeUnit = TimeUnit.MINUTES)
+	public void clearCacheLocations() {
+		LocalDateTime currentDate = LocalDateTime.now();
+		Cache cache = cacheManager.getCache("anomalyLocations");
+		if (cache == null) return;
+		ConcurrentHashMap<?, ?> map = (ConcurrentHashMap<?, ?>) cache.getNativeCache();
+		ConcurrentHashMap.KeySetView<?, ?> keySet = map.keySet();
+		log.debug("keySet: " + keySet);
+		if (keySet == null || keySet.stream().toList().isEmpty()) return;
+		keySet.forEach(key -> {
+			var date = (LocalDateTime) key;
 			if (!date.isBefore(currentDate)) {
 				log.debug("evicting key: " + key);
 				cache.evict(key);

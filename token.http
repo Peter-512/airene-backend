@@ -70,6 +70,10 @@ Authorization: Bearer {{access_token}}
 GET {{baseUrl}}/api/locations
 Authorization: Bearer {{access_token}}
 
+### GET recent data anomaly
+GET {{baseUrl}}/api/anomalies/at?timestamp=2023-12-08T13:00:00.000Z
+Authorization: Bearer {{access_token}}
+
 ### Feedback
 POST {{baseUrl}}/api/anomalies/da3a3c1f-a359-11ee-9f6d-0242ac130002
 Authorization: Bearer {{access_token}}
@@ -81,4 +85,8 @@ Content-Type: application/json
 
 ### Get Notifications
 GET {{baseUrl}}/api/users/00a7e265-6be2-4d91-b1c9-20fce7d00566/notifications
+Authorization: Bearer {{access_token}}
+
+### Get Notifications
+GET {{baseUrl}}/api/anomalies/evict
 Authorization: Bearer {{access_token}}

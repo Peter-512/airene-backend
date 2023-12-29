@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,4 +108,13 @@ public interface DataRepository  extends JpaRepository<DataJPA, UUID> {
 	""")
 	List<DataJPA> getAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKm(LocalDate date, double latitude, double longitude, double radiusKm);
 
+	@Query(
+		"""
+			SELECT d
+			FROM DataJPA d
+			JOIN AnomalyJPA a ON d.id = a.dataId
+			WHERE d.timestamp = :timestamp
+		"""
+	)
+	List<DataJPA> findMostRecentAnomalies(LocalDateTime timestamp);
 }

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLocationsPort, LoadDataByIdPort, GetAvgForLocationPerDayPerHourWithinRadiusPort, GetTotalForLocationPerDayPerHourWithinRadiusPort, GetAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKmPort {
+public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentAnomaliesPort, GetAllRecentLocationsPort, LoadDataByIdPort, GetAvgForLocationPerDayPerHourWithinRadiusPort, GetTotalForLocationPerDayPerHourWithinRadiusPort, GetAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKmPort {
 
 	private final DataRepository dataRepository;
 	private final DataEntryMapper mapper = DataEntryMapper.INSTANCE;
@@ -67,6 +68,13 @@ public class DataEntryAdapter implements DataEntryBatchSaverPort, GetAllRecentLo
 				location.getLongitude(),
 				radiusKm
 			)
+		);
+	}
+
+	@Override
+	public List<Data> getAllRecentAnomalyLocations(LocalDateTime timestamp) {
+		return mapper.mapToDataDomain(
+			dataRepository.findMostRecentAnomalies(timestamp)
 		);
 	}
 }
