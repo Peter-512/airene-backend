@@ -21,10 +21,10 @@ import java.util.Set;
 @Slf4j
 public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 	private final AnomalySavePort anomalySavePort;
-	private final SaveNotificationPort saveNotificationPort;
-	private List<AnomalyNotifyPort> anomalyNotifyPorts;
+	private final NotificationSavePort saveNotificationPort;
 	private final LoadDataByIdPort loadDataByPredictionIdPort;
 	private final NearestSubscriptionsLoadPort nearestSubscriptionsLoadPort;
+	private List<AnomalyNotifyPort> anomalyNotifyPorts;
 
 	@Override
 	public void anomalyDetected(Prediction prediction) {
@@ -46,10 +46,12 @@ public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 		}
 		Data data = optData.get();
 		subscriptions.parallelStream().filter(subscription -> !subscription.isPause())
-				.forEach(subscription -> {
-					Notification notification = Notification.notify(subscription.getUser().getId(), anomaly.getId(), anomaly.getDataId());
-					saveNotificationPort.saveNotification(notification);
-				});
-		anomalyNotifyPorts.parallelStream().forEach(anomalyNotifyPort -> anomalyNotifyPort.notifyAnomaly(List.copyOf(subscriptions), data));
+		             .forEach(subscription -> {
+			             Notification notification = Notification.notify(subscription.getUser()
+			                                                                         .getId(), anomaly.getId(), anomaly.getDataId());
+			             saveNotificationPort.saveNotification(notification);
+		             });
+		anomalyNotifyPorts.parallelStream()
+		                  .forEach(anomalyNotifyPort -> anomalyNotifyPort.notifyAnomaly(List.copyOf(subscriptions), data));
 	}
 }

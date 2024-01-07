@@ -1,10 +1,8 @@
 package be.kdg.airene.core;
 
 import be.kdg.airene.domain.feedback.Feedback;
-import be.kdg.airene.ports.in.AnomalyLoadPort;
-import be.kdg.airene.ports.in.AnomalySavePort;
-import be.kdg.airene.ports.in.FeedbackSavePort;
-import be.kdg.airene.ports.in.SubmitAnomalyFeedbackUseCase;
+import be.kdg.airene.ports.in.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,8 +17,11 @@ public class DefaultSubmitAnomalyFeedbackUseCase implements SubmitAnomalyFeedbac
 	private final AnomalyLoadPort anomalyLoadPort;
 	private final AnomalySavePort anomalySavePort;
 	private final FeedbackSavePort feedbackSavePort;
+	private final NotificationsLoadPort notificationsLoadPort;
+	private final NotificationSavePort notificationsSavePort;
 
 	@Override
+	@Transactional
 	public void submitAnomalyFeedback(UUID anomalyId, Feedback feedback) {
 		anomalyLoadPort.loadAnomaly(anomalyId).ifPresentOrElse(
 				anomalyDetection -> {
@@ -31,5 +32,12 @@ public class DefaultSubmitAnomalyFeedbackUseCase implements SubmitAnomalyFeedbac
 				},
 				() -> log.error("Anomaly detection with id: " + anomalyId + " not found")
 		);
+		notificationsLoadPort.loadNotificationByAnomalyId(anomalyId).ifPresentOrElse(
+				notification -> {
+					notification.setHasProvidedFeedback(true);
+					notificationsSavePort.saveNotification(notification);
+					log.debug("Notification with id: " + anomalyId + " marked as read");
+				},
+				() -> log.error("Notification with id: " + anomalyId + " not found"));
 	}
 }
