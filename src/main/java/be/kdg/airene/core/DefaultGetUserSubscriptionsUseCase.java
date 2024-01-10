@@ -2,7 +2,7 @@ package be.kdg.airene.core;
 
 import be.kdg.airene.domain.subscription.Subscription;
 import be.kdg.airene.ports.in.GetUserSubscriptionsUseCase;
-import be.kdg.airene.ports.in.LoadSubscriptionsByUserIdPort;
+import be.kdg.airene.ports.out.LoadSubscriptionsByUserIdPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

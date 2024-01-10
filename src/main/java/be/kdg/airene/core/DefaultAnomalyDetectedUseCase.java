@@ -1,13 +1,15 @@
 package be.kdg.airene.core;
 
+
+
 import be.kdg.airene.domain.anomaly.Anomaly;
 import be.kdg.airene.domain.anomaly.Prediction;
 import be.kdg.airene.domain.data.Data;
 import be.kdg.airene.domain.location.Location;
 import be.kdg.airene.domain.notification.Notification;
 import be.kdg.airene.domain.subscription.Subscription;
-import be.kdg.airene.ports.in.*;
-import be.kdg.airene.ports.out.AnomalyNotifyPort;
+import be.kdg.airene.ports.in.AnomalyDetectedUseCase;
+import be.kdg.airene.ports.out.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.Set;
 @Slf4j
 public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 	private final AnomalySavePort anomalySavePort;
+	private final AnomalyLoadPort anomalyLoadPort;
 	private final NotificationSavePort saveNotificationPort;
 	private final LoadDataByIdPort loadDataByPredictionIdPort;
 	private final NearestSubscriptionsLoadPort nearestSubscriptionsLoadPort;
@@ -48,7 +51,7 @@ public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 		subscriptions.parallelStream().filter(subscription -> !subscription.isPause())
 		             .forEach(subscription -> {
 			             Notification notification = Notification.notify(subscription.getUser()
-			                                                                         .getId(), anomaly.getId(), anomaly.getDataId());
+			                                                                         .getId(), anomaly, anomaly.getDataId());
 			             saveNotificationPort.saveNotification(notification);
 		             });
 		anomalyNotifyPorts.parallelStream()

@@ -2,7 +2,7 @@ package be.kdg.airene.core;
 
 import be.kdg.airene.domain.data.Data;
 import be.kdg.airene.ports.in.GetEntryByIdUseCase;
-import be.kdg.airene.ports.in.LoadDataByIdPort;
+import be.kdg.airene.ports.out.LoadDataByIdPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

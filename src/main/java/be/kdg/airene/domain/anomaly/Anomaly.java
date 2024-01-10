@@ -18,7 +18,7 @@ public class Anomaly {
 	private UUID dataId;
 	private Location location;
 	private double averageRegression;
-	private List<Feedback> feedbackList = new ArrayList<>();
+	private List<Feedback> feedback = new ArrayList<>();
 
 	public static Anomaly anomalyDetected(Prediction prediction) {
 		Anomaly anomaly = new Anomaly();
@@ -31,8 +31,8 @@ public class Anomaly {
 	}
 
 	public Feedback submitFeedback(Feedback feedback) {
-		feedback.setAnomaly(this);
-		this.feedbackList.add(feedback);
+		feedback.setAnomalyId(this.id);
+		this.feedback.add(feedback);
 		return feedback;
 	}
 }

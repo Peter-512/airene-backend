@@ -3,7 +3,8 @@ package be.kdg.airene.adapters.out.db.data;
 import be.kdg.airene.adapters.out.mapper.DataEntryMapper;
 import be.kdg.airene.domain.data.Data;
 import be.kdg.airene.domain.location.Location;
-import be.kdg.airene.ports.in.*;
+import be.kdg.airene.ports.in.GetAllDataThatAreAnomaliesForDayAndLocationWithinRadiusKmPort;
+import be.kdg.airene.ports.out.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

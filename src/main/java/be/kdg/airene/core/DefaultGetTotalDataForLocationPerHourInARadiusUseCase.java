@@ -3,7 +3,7 @@ package be.kdg.airene.core;
 import be.kdg.airene.adapters.out.db.data.DataJPAInfo;
 import be.kdg.airene.domain.location.Location;
 import be.kdg.airene.ports.in.GetTotalDataForLocationPerHourInARadiusUseCase;
-import be.kdg.airene.ports.in.GetTotalForLocationPerDayPerHourWithinRadiusPort;
+import be.kdg.airene.ports.out.GetTotalForLocationPerDayPerHourWithinRadiusPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

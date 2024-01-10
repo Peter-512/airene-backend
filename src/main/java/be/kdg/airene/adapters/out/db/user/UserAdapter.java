@@ -2,9 +2,9 @@ package be.kdg.airene.adapters.out.db.user;
 
 import be.kdg.airene.adapters.out.mapper.UserMapper;
 import be.kdg.airene.domain.user.User;
-import be.kdg.airene.ports.in.CreateUserPort;
-import be.kdg.airene.ports.in.LoadUserPort;
-import be.kdg.airene.ports.in.SaveUserPort;
+import be.kdg.airene.ports.out.CreateUserPort;
+import be.kdg.airene.ports.out.LoadUserPort;
+import be.kdg.airene.ports.out.SaveUserPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

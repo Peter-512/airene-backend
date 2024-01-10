@@ -2,7 +2,8 @@ package be.kdg.airene.core;
 
 import be.kdg.airene.domain.notification.Notification;
 import be.kdg.airene.ports.in.GetUserNotificationsLastTwoWeeksUseCase;
-import be.kdg.airene.ports.in.LoadNotificationsLastTwoWeeksByUserIdPort;
+import be.kdg.airene.ports.out.LoadFeedbackByAnomalyIdPort;
+import be.kdg.airene.ports.out.LoadNotificationsLastTwoWeeksByUserIdPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,20 @@ import java.util.UUID;
 @Slf4j
 public class DefaultGetUserNotificationsLastTwoWeeksUseCase implements GetUserNotificationsLastTwoWeeksUseCase {
 
-	LoadNotificationsLastTwoWeeksByUserIdPort loadNotificationsLastTwoWeeksByUserIdPort;
+	private final LoadNotificationsLastTwoWeeksByUserIdPort loadNotificationsLastTwoWeeksByUserIdPort;
+	private final LoadFeedbackByAnomalyIdPort loadFeedbackByAnomalyIdPort;
 
 	@Override
 	public List<Notification> getUserNotificationsLastTwoWeeks(UUID userId, String sort) {
-		return loadNotificationsLastTwoWeeksByUserIdPort.loadNotificationsLastTwoWeeksByUserId(userId, sort);
+		List<Notification> notifications = loadNotificationsLastTwoWeeksByUserIdPort.loadNotificationsLastTwoWeeksByUserId(userId, sort);
+		notifications.forEach(notification -> {
+			if (!notification.isHasProvidedFeedback()) {
+				return;
+			}
+			notification.getAnomaly()
+			            .setFeedback(loadFeedbackByAnomalyIdPort.loadFeedbackByAnomalyId(notification.getAnomaly()
+			                                                                                     .getId()));
+		});
+		return notifications;
 	}
 }

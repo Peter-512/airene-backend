@@ -1,4 +1,4 @@
-package be.kdg.airene.ports.in;
+package be.kdg.airene.ports.out;
 
 import be.kdg.airene.domain.user.User;
 

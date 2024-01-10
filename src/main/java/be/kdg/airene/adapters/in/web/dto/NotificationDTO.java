@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 public class NotificationDTO {
 	private UUID id;
-	private UUID anomalyId;
+	private AnomalyDTO anomaly;
 	private UUID dataId;
 	private boolean hasProvidedFeedback;
 	private LocalDateTime timestamp;

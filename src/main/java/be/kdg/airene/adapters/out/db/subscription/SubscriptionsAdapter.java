@@ -2,7 +2,7 @@ package be.kdg.airene.adapters.out.db.subscription;
 
 import be.kdg.airene.adapters.out.mapper.SubscriptionMapper;
 import be.kdg.airene.domain.subscription.Subscription;
-import be.kdg.airene.ports.in.*;
+import be.kdg.airene.ports.out.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;

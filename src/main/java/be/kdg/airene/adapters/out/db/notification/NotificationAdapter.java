@@ -2,9 +2,9 @@ package be.kdg.airene.adapters.out.db.notification;
 
 import be.kdg.airene.adapters.out.mapper.NotificationMapper;
 import be.kdg.airene.domain.notification.Notification;
-import be.kdg.airene.ports.in.LoadNotificationsLastTwoWeeksByUserIdPort;
-import be.kdg.airene.ports.in.NotificationSavePort;
-import be.kdg.airene.ports.in.NotificationsLoadPort;
+import be.kdg.airene.ports.out.LoadNotificationsLastTwoWeeksByUserIdPort;
+import be.kdg.airene.ports.out.NotificationSavePort;
+import be.kdg.airene.ports.out.NotificationsLoadPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;

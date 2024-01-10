@@ -1,8 +1,8 @@
 package be.kdg.airene.core;
 
 import be.kdg.airene.domain.data.Data;
-import be.kdg.airene.ports.in.DataEntryBatchSaverPort;
 import be.kdg.airene.ports.in.SaveDataEntryBatchesUseCase;
+import be.kdg.airene.ports.out.DataEntryBatchSaverPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

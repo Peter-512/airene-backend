@@ -1,14 +1,15 @@
 package be.kdg.airene.domain.feedback;
 
-import be.kdg.airene.domain.anomaly.Anomaly;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
 @Setter
 public class Feedback {
 	private Long id;
-	private Anomaly anomaly;
+	private UUID anomalyId;
 	private FeedbackReason feedbackReason;
 	private String description; // optional
 

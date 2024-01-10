@@ -3,8 +3,8 @@ package be.kdg.airene.adapters.out.db.anomaly;
 import be.kdg.airene.adapters.out.db.data.DataRepository;
 import be.kdg.airene.adapters.out.mapper.AnomalyMapper;
 import be.kdg.airene.domain.anomaly.Anomaly;
-import be.kdg.airene.ports.in.AnomalyLoadPort;
-import be.kdg.airene.ports.in.AnomalySavePort;
+import be.kdg.airene.ports.out.AnomalyLoadPort;
+import be.kdg.airene.ports.out.AnomalySavePort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

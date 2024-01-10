@@ -2,8 +2,8 @@ package be.kdg.airene.core;
 
 import be.kdg.airene.domain.user.User;
 import be.kdg.airene.ports.in.CreateAccountIfNotExistsUseCase;
-import be.kdg.airene.ports.in.CreateUserPort;
-import be.kdg.airene.ports.in.LoadUserPort;
+import be.kdg.airene.ports.out.CreateUserPort;
+import be.kdg.airene.ports.out.LoadUserPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

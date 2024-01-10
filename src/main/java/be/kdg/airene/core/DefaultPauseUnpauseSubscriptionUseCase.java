@@ -1,9 +1,9 @@
 package be.kdg.airene.core;
 
 import be.kdg.airene.domain.subscription.Subscription;
-import be.kdg.airene.ports.in.LoadSubscriptionByUserIDAndSubscriptionIDPort;
 import be.kdg.airene.ports.in.PauseUnpauseSubscriptionUseCase;
-import be.kdg.airene.ports.in.UpdateSubscriptionPort;
+import be.kdg.airene.ports.out.LoadSubscriptionByUserIDAndSubscriptionIDPort;
+import be.kdg.airene.ports.out.UpdateSubscriptionPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ import java.util.UUID;
 @Service
 public class DefaultPauseUnpauseSubscriptionUseCase implements PauseUnpauseSubscriptionUseCase {
 
-	LoadSubscriptionByUserIDAndSubscriptionIDPort loadSubscriptionByUserIDAndSubscriptionIDPort;
-	UpdateSubscriptionPort updateSubscriptionPort;
+	private final LoadSubscriptionByUserIDAndSubscriptionIDPort loadSubscriptionByUserIDAndSubscriptionIDPort;
+	private final UpdateSubscriptionPort updateSubscriptionPort;
 
 	@Override
 	public Optional<Subscription> togglePauseSubscription(UUID userId, UUID subscriptionId) {

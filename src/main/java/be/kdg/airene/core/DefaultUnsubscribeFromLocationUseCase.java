@@ -1,9 +1,9 @@
 package be.kdg.airene.core;
 
 import be.kdg.airene.domain.subscription.Subscription;
-import be.kdg.airene.ports.in.LoadSubscriptionByUserIDAndSubscriptionIDPort;
-import be.kdg.airene.ports.in.RemoveSubscriptionPort;
 import be.kdg.airene.ports.in.UnsubscribeFromLocationUseCase;
+import be.kdg.airene.ports.out.LoadSubscriptionByUserIDAndSubscriptionIDPort;
+import be.kdg.airene.ports.out.RemoveSubscriptionPort;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

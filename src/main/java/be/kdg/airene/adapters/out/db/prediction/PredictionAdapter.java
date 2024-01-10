@@ -2,7 +2,7 @@ package be.kdg.airene.adapters.out.db.prediction;
 
 import be.kdg.airene.adapters.out.mapper.PredictionMapper;
 import be.kdg.airene.domain.anomaly.Prediction;
-import be.kdg.airene.ports.in.SavePredictionsPort;
+import be.kdg.airene.ports.out.SavePredictionsPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

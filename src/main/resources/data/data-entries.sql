@@ -15356,7 +15356,26 @@ SELECT
 FROM data d
 WHERE d.id IN (0x013CF7B05A55449B9296316B1FC4C4D9, 0x013B8DA66EE1477197652B006F66DC2A,
                0x013CCBB8F338409BBEE592CFD9B0F6F6, 0x013CA849453A412291CB86E4B872DBB2,
-               0x013C7BAD0DD04E56B890B381BE95C101, 0x00001DA2F38A4F97AD4EA0BBBD766BA9);
+               0x013C7BAD0DD04E56B890B381BE95C101);
+
+INSERT INTO anomalies (average_regression, latitude, longitude, timestamp, data_id, id)
+SELECT
+    -- You need to specify how to calculate average_regression.
+    -- This is just a placeholder since the actual calculation depends on your requirements.
+    rand()              AS average_regression,
+    d.latitude,
+    d.longitude,
+    d.timestamp,
+    d.id                AS data_id,
+    -- Generate a new unique ID for the anomaly record. The method of generation depends on your DBMS.
+    UUID_TO_BIN('99d144e3-ae26-11ee-b9d1-0242ac130002') AS id
+FROM data d
+WHERE d.id IN (0x00001DA2F38A4F97AD4EA0BBBD766BA9);
+
+INSERT INTO feedback (anomaly_id, description, feedback_reason) VALUES
+    (UUID_TO_BIN('99d144e3-ae26-11ee-b9d1-0242ac130002'),
+     'BBQ was delicous',
+     'OTHER');
 
 INSERT INTO users (id, email, name)
 VALUES (UUID_TO_BIN('6d9b2f4c-8c07-4f3c-96b0-7812192e7bb2'), 'peter.buschenreiter@gmail.com', 'Peter Buschenreiter');
@@ -15368,4 +15387,15 @@ SELECT false,
        a.data_id,
        UUID_TO_BIN(UUID())                                 as id,
        UUID_TO_BIN('6d9b2f4c-8c07-4f3c-96b0-7812192e7bb2') as user_id
-from anomalies a;
+from anomalies a
+WHERE a.id <> UUID_TO_BIN('99d144e3-ae26-11ee-b9d1-0242ac130002');
+
+INSERT INTO notifications (has_provided_feedback, timestamp, anomaly_id, data_id, id, user_id) VALUES
+   (
+    TRUE,
+    TIMESTAMP(current_date()),
+    UUID_TO_BIN('99d144e3-ae26-11ee-b9d1-0242ac130002'),
+    0x00001DA2F38A4F97AD4EA0BBBD766BA9,
+    UUID_TO_BIN(UUID()),
+    UUID_TO_BIN('6d9b2f4c-8c07-4f3c-96b0-7812192e7bb2')
+   );

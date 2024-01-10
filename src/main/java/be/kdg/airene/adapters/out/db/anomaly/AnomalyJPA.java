@@ -24,6 +24,6 @@ public class AnomalyJPA {
 	private UUID dataId;
 	@Column(name = "average_regression")
 	private double averageRegression;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "anomaly")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<FeedbackJPA> feedback;
 }
