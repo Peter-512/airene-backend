@@ -59,8 +59,8 @@ deploy:
         - az extension add --name containerapp --upgrade
     script:
         - tag=$CI_COMMIT_REF_NAME
-        - az containerapp up --name airene-backend --resource-group int5 --location westeurope --environment prod --target-port 8080 --ingress external --image "$IMAGE_USERNAME.azurecr.io/airene-backend:latest"
-        - az containerapp secret set --name airene-backend --resource-group int5 --secrets
+        - az containerapp up --name airene-backend --resource-group containerapps --location westeurope --environment prod --target-port 8080 --ingress external --image "$IMAGE_USERNAME.azurecr.io/airene-backend:latest"
+        - az containerapp secret set --name airene-backend --resource-group containerapps --secrets
             azure-sb-namespace=$AZURE_SERVICEBUS_NAMESPACE
             azure-sb-connection=$AZURE_SERVICEBUS_CONNECTION_STRING
             azure-sql-db-un=$AZURE_SQL_DB_USERNAME
@@ -71,7 +71,7 @@ deploy:
             azure-mail-endpoint=$AZURE_MAIL_ENDPOINT
             azure-mail-sender=$AZURE_MAIL_SENDER
             frontend-domain=$FRONTEND_DOMAIN
-        - az containerapp update --name airene-backend --resource-group int5 --cpu 1 --memory 2Gi --set-env-vars 
+        - az containerapp update --name airene-backend --resource-group containerapps --cpu 1 --memory 2Gi --set-env-vars 
             AZURE_SERVICEBUS_NAMESPACE=secretref:azure-sb-namespace
             AZURE_SERVICEBUS_CONNECTION_STRING=secretref:azure-sb-connection
             AZURE_SQL_DB_USERNAME=secretref:azure-sql-db-un
@@ -83,4 +83,4 @@ deploy:
             AZURE_MAIL_ENDPOINT=secretref:azure-mail-endpoint
             AZURE_MAIL_SENDER=secretref:azure-mail-sender
             FRONTEND_DOMAIN=secretref:frontend-domain
-        - az containerapp update --name airene-backend --resource-group int5 --yaml containerapp.yaml
+        - az containerapp update --name airene-backend --resource-group containerapps --yaml containerapp.yaml
