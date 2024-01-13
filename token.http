@@ -91,3 +91,7 @@ Authorization: Bearer {{access_token}}
 ### Get Notifications
 GET {{baseUrl}}/api/anomalies/evict
 Authorization: Bearer {{access_token}}
+
+### Test Sentry
+GET {{baseUrl}}/api/users/sentry-test
+Authorization: Bearer {{access_token}}

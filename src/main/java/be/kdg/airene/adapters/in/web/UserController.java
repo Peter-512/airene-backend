@@ -10,6 +10,7 @@ import be.kdg.airene.adapters.out.mapper.SubscriptionMapper;
 import be.kdg.airene.adapters.out.mapper.UserMapper;
 import be.kdg.airene.domain.subscription.Subscription;
 import be.kdg.airene.ports.in.*;
+import io.sentry.Sentry;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping ("/api/users")
 public class UserController {
 
 	private final CreateAccountIfNotExistsUseCase createAccountIfNotExistsUseCase;
@@ -44,17 +45,27 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/{id}/subscriptions")
-	public ResponseEntity<?> getSubscriptions(@PathVariable UUID id,  @RequestParam(required = false, name = "sortBy", defaultValue = "desc") Sort sortBy) {
+	@GetMapping ("/sentry-test")
+	public ResponseEntity<?> test() {
+		try {
+			throw new Exception("This is a test.");
+		} catch (Exception e) {
+			Sentry.captureException(e);
+		}
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping ("/{id}/subscriptions")
+	public ResponseEntity<?> getSubscriptions(@PathVariable UUID id, @RequestParam (required = false, name = "sortBy", defaultValue = "desc") Sort sortBy) {
 		return ResponseEntity.ok(subscriptionMapper.toDTO(getUserSubscriptionsUseCase.getUserSubscriptions(id, sortBy.name())));
 	}
 
-	@GetMapping("/{id}/notifications")
-	public ResponseEntity<?> getNotifications(@PathVariable UUID id,  @RequestParam(required = false, name = "sortBy", defaultValue = "desc") Sort sortBy) {
+	@GetMapping ("/{id}/notifications")
+	public ResponseEntity<?> getNotifications(@PathVariable UUID id, @RequestParam (required = false, name = "sortBy", defaultValue = "desc") Sort sortBy) {
 		return ResponseEntity.ok(notificationMapper.toDTO(getUserNotificationsLastTwoWeeksUseCase.getUserNotificationsLastTwoWeeks(id, sortBy.name())));
 	}
 
-	@PostMapping("/{id}/subscriptions")
+	@PostMapping ("/{id}/subscriptions")
 	public ResponseEntity<SubscriptionDTO> subscribeToLocation(@RequestBody @Valid SubscriptionRequestDTO subscribtionRequestDTO, @PathVariable UUID id) {
 		Subscription subscription = subscribeToLocationUseCase.subscribeToLocation(id, locationMapper.toDomain(subscribtionRequestDTO));
 		if (subscription != null) {
@@ -63,7 +74,7 @@ public class UserController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@DeleteMapping("/{id}/subscriptions/{subscriptionId}")
+	@DeleteMapping ("/{id}/subscriptions/{subscriptionId}")
 	public ResponseEntity<Void> unsubscribeToLocation(@PathVariable UUID id, @PathVariable UUID subscriptionId) {
 		boolean isUnsubscribed = unsubscribeFromLocationUseCase.unsubscribeFromLocation(id, subscriptionId);
 		if (isUnsubscribed) {
@@ -72,9 +83,10 @@ public class UserController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@PatchMapping("/{id}/subscriptions/{subscriptionId}/pause")
+	@PatchMapping ("/{id}/subscriptions/{subscriptionId}/pause")
 	public ResponseEntity<SubscriptionDTO> pauseSubscription(@PathVariable UUID id, @PathVariable UUID subscriptionId) {
 		var subscription = pauseUnpauseSubscriptionUseCase.togglePauseSubscription(id, subscriptionId);
-		return subscription.map(value -> ResponseEntity.ok(subscriptionMapper.toDTO(value))).orElseGet(() -> ResponseEntity.notFound().build());
+		return subscription.map(value -> ResponseEntity.ok(subscriptionMapper.toDTO(value)))
+		                   .orElseGet(() -> ResponseEntity.notFound().build());
 	}
 }
