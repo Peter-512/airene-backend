@@ -5,6 +5,7 @@ plugins {
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("org.owasp.dependencycheck") version "8.4.2"
     id "org.sonarqube" version "3.5.0.2730"
+    id "io.sentry.jvm.gradle" version "4.1.1"
 }
 
 group = 'be.kdg'
@@ -81,15 +82,15 @@ dependencies {
             because 'CVE-2023-6378'
         }
 
-        implementation("io.projectreactor.netty:reactor-netty-http:1.1.14"){
+        implementation("io.projectreactor.netty:reactor-netty-http:1.1.14") {
             because 'CVE-2023-34062'
         }
 
-        implementation("org.apache.tomcat.embed:tomcat-embed-core:11.0.0-M15"){
+        implementation("org.apache.tomcat.embed:tomcat-embed-core:11.0.0-M15") {
             because 'CVE-2023-46589'
         }
 
-        implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0"){
+        implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0") {
             because 'CVE-2023-35116'
         }
     }
@@ -128,7 +129,7 @@ dependencyCheck {
     analyzers {
         assemblyEnabled = false
     }
-    formats = [ "HTML", "XML" ]
+    formats = ["HTML", "XML"]
 }
 
 
@@ -150,4 +151,15 @@ tasks.bootBuildImage.dependsOn generateGitProperties
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+sentry {
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
+    includeSourceContext = true
+
+    org = "peter-buschenreiter"
+    projectName = "airene-backend"
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }

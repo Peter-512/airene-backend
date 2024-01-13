@@ -1,30 +1,36 @@
 spring:
-  cloud:
-    azure:
-      servicebus:
-        namespace: ${AZURE_SERVICEBUS_NAMESPACE}
-        entity-type: queue
-        connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
-  datasource:
-    url: ${AZURE_SQL_DB_URL}
-    username: ${AZURE_SQL_DB_USERNAME}
-    password: ${AZURE_SQL_DB_PASSWORD}
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.MySQLDialect
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${KEYCLOAK_JWT}
-          issuer-uri: ${KEYCLOAK_ISSUER}
+    cloud:
+        azure:
+            servicebus:
+                namespace: ${AZURE_SERVICEBUS_NAMESPACE}
+                entity-type: queue
+                connection-string: ${AZURE_SERVICEBUS_CONNECTION_STRING}
+    datasource:
+        url: ${AZURE_SQL_DB_URL}
+        username: ${AZURE_SQL_DB_USERNAME}
+        password: ${AZURE_SQL_DB_PASSWORD}
+    jpa:
+        show-sql: false
+        hibernate:
+            ddl-auto: update
+            dialect: org.hibernate.dialect.MySQLDialect
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    jwk-set-uri: ${KEYCLOAK_JWT}
+                    issuer-uri: ${KEYCLOAK_ISSUER}
 
 azure:
-  servicebus:
-    queue:
-      prediction: prediction-cute
-      data: clean-data-cute
+    servicebus:
+        queue:
+            prediction: prediction-cute
+            data: clean-data-cute
 
 frontend-domain: ${FRONTEND_DOMAIN}
+
+sentry:
+    dsn: https://a09fd8741908d82c7f2b1ebcefd4f194@o4506478524301312.ingest.sentry.io/4506563848830976
+    # Set traces-sample-rate to 1.0 to capture 100% of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces-sample-rate: 1.0
