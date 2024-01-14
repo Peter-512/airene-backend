@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Subscription {
 	private UUID id;
 	private User user;
-	private boolean pause = false;
+	private boolean isEnabled = true;
 	private LocalDateTime createdAt = LocalDateTime.now();
 	private SubscribedLocation location;
 
@@ -23,7 +23,7 @@ public class Subscription {
 		subscription.setLocation(location);
 		return subscription;
 	}
-	public void togglePause() {
-		this.pause = !this.pause;
+	public void toggleEnabled() {
+		this.isEnabled = !this.isEnabled;
 	}
 }

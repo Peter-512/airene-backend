@@ -48,7 +48,7 @@ public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 			return;
 		}
 		Data data = optData.get();
-		subscriptions.parallelStream().filter(subscription -> !subscription.isPause())
+		subscriptions.parallelStream().filter(Subscription::isEnabled)
 		             .forEach(subscription -> {
 			             Notification notification = Notification.notify(subscription.getUser()
 			                                                                         .getId(), anomaly, anomaly.getDataId());

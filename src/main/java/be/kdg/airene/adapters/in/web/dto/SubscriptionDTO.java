@@ -13,6 +13,6 @@ public class SubscriptionDTO {
 	private double latitude;
 	private double longitude;
 	private String address;
-	private boolean pause;
+	private boolean isEnabled;
 	private LocalDateTime createdAt;
 }

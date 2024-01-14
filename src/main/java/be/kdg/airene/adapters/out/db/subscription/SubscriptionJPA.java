@@ -21,6 +21,6 @@ public class SubscriptionJPA {
 	private UserJPA user;
 	@Embedded
 	private SubscribedLocationJPA location;
-	private boolean pause = false;
+	private boolean isEnabled = true;
 	private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -24,9 +24,9 @@ public class DefaultPauseUnpauseSubscriptionUseCase implements PauseUnpauseSubsc
 		Optional<Subscription> subscription = loadSubscriptionByUserIDAndSubscriptionIDPort.loadSubscriptionByUserIDAndSubscriptionID(userId, subscriptionId);
 		subscription.ifPresentOrElse(
 			sub -> {
-				sub.togglePause();
+				sub.toggleEnabled();
 				updateSubscriptionPort.updateSubscription(sub);
-				log.debug("Subscription with id {} is now {}", subscriptionId, sub.isPause() ? "paused" : "unpaused");
+				log.debug("Subscription with id {} is now {}", subscriptionId, sub.isEnabled() ? "Enabled" : "Disabled");
 			},
 			() -> log.debug("Subscription with id {} not found", subscriptionId)
 		);
