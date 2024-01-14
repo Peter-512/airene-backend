@@ -90,7 +90,7 @@ public class AnomalyController {
 		log.debug("keySet: " + keySet);
 		if (keySet == null || keySet.stream().toList().isEmpty()) return;
 		keySet.forEach(key -> {
-			var date = (LocalDateTime) key;
+			var date = (LocalDateTime) ((List<Object>) key).getFirst();
 			if (!date.isBefore(currentDate)) {
 				log.debug("evicting key: " + key);
 				cache.evict(key);
