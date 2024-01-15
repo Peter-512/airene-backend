@@ -38,7 +38,7 @@ public class NotificationAdapter implements NotificationSavePort, LoadNotificati
 	}
 
 	@Override
-	public Optional<Notification> loadNotificationByAnomalyId(UUID anomalyId) {
-		return notificationRepository.findByAnomalyId(anomalyId).map(notificationMapper::toDomain);
+	public Optional<Notification> loadNotificationById(UUID notificationId) {
+		return notificationRepository.findById(notificationId).map(notificationMapper::toDomain);
 	}
 }

@@ -6,5 +6,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface SubmitAnomalyFeedbackUseCase {
-	void submitAnomalyFeedback(UUID anomalyId, Feedback feedback);
+	void submitAnomalyFeedback(UUID notificationId, UUID anomalyId, Feedback feedback);
 }

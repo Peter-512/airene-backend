@@ -1,13 +1,10 @@
 package be.kdg.airene.adapters.in.web;
 
 import be.kdg.airene.adapters.in.web.dto.LocationDTO;
-import be.kdg.airene.adapters.in.web.dto.SubmitFeedbackDTO;
 import be.kdg.airene.adapters.out.mapper.DataEntryMapper;
-import be.kdg.airene.adapters.out.mapper.FeedbackMapper;
 import be.kdg.airene.adapters.out.mapper.LocationMapper;
 import be.kdg.airene.ports.in.GetAllRecentAnomalyLocationsUseCase;
 import be.kdg.airene.ports.in.GetAnomaliesForDayAndLocationWithinRadiusKmUseCase;
-import be.kdg.airene.ports.in.SubmitAnomalyFeedbackUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,12 +15,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -33,11 +32,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/anomalies")
 public class AnomalyController {
 	private final CacheManager cacheManager;
-	private final SubmitAnomalyFeedbackUseCase submitAnomalyFeedbackUseCase;
 	private final GetAnomaliesForDayAndLocationWithinRadiusKmUseCase anomalyUseCase;
 	private final GetAllRecentAnomalyLocationsUseCase getAllRecentAnomalyLocationsUseCase;
-
-	private final FeedbackMapper mapper = FeedbackMapper.INSTANCE;
 	private final DataEntryMapper dataEntryMapper = DataEntryMapper.INSTANCE;
 	private final LocationMapper locationMapper = LocationMapper.INSTANCE;
 
@@ -96,11 +92,5 @@ public class AnomalyController {
 				cache.evict(key);
 			}
 		});
-	}
-
-	@PostMapping("/{id}")
-	public ResponseEntity<Void> submitFeedback(@RequestBody SubmitFeedbackDTO submitFeedbackDTO, @PathVariable UUID id) {
-		submitAnomalyFeedbackUseCase.submitAnomalyFeedback(id,mapper.mapToDomain(submitFeedbackDTO));
-		return ResponseEntity.ok().build();
 	}
 }

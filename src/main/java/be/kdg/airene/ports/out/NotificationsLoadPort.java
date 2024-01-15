@@ -6,5 +6,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface NotificationsLoadPort {
-	Optional<Notification> loadNotificationByAnomalyId(UUID anomalyId);
+	Optional<Notification> loadNotificationById(UUID anomalyId);
 }

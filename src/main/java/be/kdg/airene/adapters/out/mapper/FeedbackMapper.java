@@ -5,6 +5,7 @@ import be.kdg.airene.adapters.in.web.dto.SubmitFeedbackDTO;
 import be.kdg.airene.adapters.out.db.feedback.FeedbackJPA;
 import be.kdg.airene.domain.feedback.Feedback;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 public interface FeedbackMapper {
 	FeedbackMapper INSTANCE = Mappers.getMapper(FeedbackMapper.class);
 
+	@Mapping(target = "anomalyId", ignore = true)
 	Feedback mapToDomain(SubmitFeedbackDTO submitFeedbackDTO);
 	Feedback mapToDomain(FeedbackJPA feedbackJPA);
 	FeedbackJPA mapToJPA(Feedback feedback);

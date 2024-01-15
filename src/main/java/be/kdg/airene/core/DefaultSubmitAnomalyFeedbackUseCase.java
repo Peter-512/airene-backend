@@ -25,7 +25,7 @@ public class DefaultSubmitAnomalyFeedbackUseCase implements SubmitAnomalyFeedbac
 
 	@Override
 	@Transactional
-	public void submitAnomalyFeedback(UUID anomalyId, Feedback feedback) {
+	public void submitAnomalyFeedback(UUID notificationId, UUID anomalyId, Feedback feedback) {
 		anomalyLoadPort.loadAnomaly(anomalyId).ifPresentOrElse(
 				anomalyDetection -> {
 					Feedback submitted = anomalyDetection.submitFeedback(feedback);
@@ -34,7 +34,7 @@ public class DefaultSubmitAnomalyFeedbackUseCase implements SubmitAnomalyFeedbac
 				},
 				() -> log.error("Anomaly detection with id: " + anomalyId + " not found")
 		);
-		notificationsLoadPort.loadNotificationByAnomalyId(anomalyId).ifPresentOrElse(
+		notificationsLoadPort.loadNotificationById(notificationId).ifPresentOrElse(
 				notification -> {
 					notification.setHasProvidedFeedback(true);
 					notificationsSavePort.saveNotification(notification);
