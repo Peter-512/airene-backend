@@ -6,3 +6,4 @@ azure:
   mail:
     endpoint: ${AZURE_MAIL_ENDPOINT}
     sender: ${AZURE_MAIL_SENDER}
+    key: ${AZURE_MAIL_KEY}

@@ -73,6 +73,7 @@ deploy:
             frontend-domain=$FRONTEND_DOMAIN
             sentry-token=$SENTRY_AUTH_TOKEN
             managed-id=$AZURE_MANAGED_IDENTITY_CLIENT_ID
+            mail-key=$AZURE_MAIL_KEY
         - az containerapp update --name airene-backend --resource-group messaging --cpu 1 --memory 2Gi --set-env-vars
             AZURE_SERVICEBUS_NAMESPACE=secretref:azure-sb-namespace
             AZURE_SERVICEBUS_CONNECTION_STRING=secretref:azure-sb-connection
@@ -87,4 +88,5 @@ deploy:
             FRONTEND_DOMAIN=secretref:frontend-domain
             SENTRY_AUTH_TOKEN=secretref:sentry-token
             AZURE_MANAGED_IDENTITY_CLIENT_ID=secretref:managed-id
+            AZURE_MAIL_KEY=secretref:mail-key
         - az containerapp update --name airene-backend --resource-group messaging --yaml containerapp.yaml
