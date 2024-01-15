@@ -48,13 +48,13 @@ public class DefaultAnomalyDetectedUseCase implements AnomalyDetectedUseCase {
 			return;
 		}
 		Data data = optData.get();
-		subscriptions.parallelStream().filter(Subscription::isEnabled)
-		             .forEach(subscription -> {
-			             Notification notification = Notification.notify(subscription.getUser()
-			                                                                         .getId(), anomaly, anomaly.getDataId());
-			             saveNotificationPort.saveNotification(notification);
-		             });
+		var enabledSubs = subscriptions.parallelStream().filter(Subscription::isEnabled).toList();
+		enabledSubs.forEach(subscription -> {
+			Notification notification = Notification.notify(subscription.getUser()
+			                                                            .getId(), anomaly, anomaly.getDataId());
+			saveNotificationPort.saveNotification(notification);
+		});
 		anomalyNotifyPorts.parallelStream()
-		                  .forEach(anomalyNotifyPort -> anomalyNotifyPort.notifyAnomaly(List.copyOf(subscriptions), data));
+		                  .forEach(anomalyNotifyPort -> anomalyNotifyPort.notifyAnomaly(enabledSubs, data));
 	}
 }
